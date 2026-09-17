@@ -1,0 +1,878 @@
+{
+  "anios_observados": [
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "anios_proyectados": [
+    2027,
+    2029,
+    2031
+  ],
+  "anio_base": 2026,
+  "meses_denue": {
+    "2016": 1,
+    "2017": 3,
+    "2018": 3,
+    "2019": 4,
+    "2020": 4,
+    "2021": 5,
+    "2022": 5,
+    "2023": 11,
+    "2024": 5,
+    "2025": 5,
+    "2026": 5
+  },
+  "escenarios": {
+    "tendencial": {
+      "nombre": "Tendencial",
+      "descripcion": "La ciudad sigue la trayectoria observada entre censos."
+    },
+    "digitalizacion": {
+      "nombre": "Digitalizacion",
+      "descripcion": "Parte de la demanda de 60+ migra a teleconsulta y compra en linea. Responde a la critica de que el adulto mayor de 2031 tiene cultura digital."
+    },
+    "recambio": {
+      "nombre": "Envejecimiento acelerado",
+      "descripcion": "El desplazamiento barrial observado entre 2010 y 2020 se acelera al doble. Responde a la hipotesis de barrios que envejecen y barrios que rejuvenecen."
+    }
+  },
+  "scian_oferta": {
+    "464111": "Farmacias sin minisuper",
+    "464112": "Farmacias con minisuper",
+    "621111": "Consultorios de medicina general, sector privado",
+    "621115": "Clinicas de consultorios medicos, sector privado"
+  },
+  "scian_contexto": {
+    "464113": "Naturistas y homeopaticos",
+    "462111": "Supermercados",
+    "462112": "Minisupers",
+    "461110": "Abarrotes y miscelaneas",
+    "623311": "Asilos y residencias para personas adultas mayores",
+    "621113": "Consultorios de medicina especializada, sector privado",
+    "621511": "Laboratorios medicos y de diagnostico",
+    "465111": "Perfumeria y cosmeticos",
+    "464121": "Lentes",
+    "464122": "Articulos ortopedicos"
+  },
+  "ancho_banda_m": 800.0,
+  "alcaldias_nombre": {
+    "09002": "Azcapotzalco",
+    "09003": "Coyoacan",
+    "09004": "Cuajimalpa",
+    "09005": "Gustavo A. Madero",
+    "09006": "Iztacalco",
+    "09007": "Iztapalapa",
+    "09008": "Magdalena Contreras",
+    "09009": "Milpa Alta",
+    "09010": "Alvaro Obregon",
+    "09011": "Tlahuac",
+    "09012": "Tlalpan",
+    "09013": "Xochimilco",
+    "09014": "Benito Juarez",
+    "09015": "Cuauhtemoc",
+    "09016": "Miguel Hidalgo",
+    "09017": "Venustiano Carranza"
+  },
+  "alcaldias": [
+    {
+      "CVE_MUN": "09002",
+      "pob": 432205,
+      "p60": 78649.0,
+      "oferta": 405,
+      "recambio": -0.14,
+      "brecha": 6.81,
+      "agebs": 103,
+      "alcaldia": "Azcapotzalco",
+      "por_10k_60": 51.5
+    },
+    {
+      "CVE_MUN": "09003",
+      "pob": 614447,
+      "p60": 126592.0,
+      "oferta": 605,
+      "recambio": 2.0,
+      "brecha": 7.94,
+      "agebs": 156,
+      "alcaldia": "Coyoacan",
+      "por_10k_60": 47.8
+    },
+    {
+      "CVE_MUN": "09004",
+      "pob": 212735,
+      "p60": 25458.0,
+      "oferta": 190,
+      "recambio": -0.68,
+      "brecha": 4.18,
+      "agebs": 31,
+      "alcaldia": "Cuajimalpa",
+      "por_10k_60": 74.6
+    },
+    {
+      "CVE_MUN": "09005",
+      "pob": 1173351,
+      "p60": 203469.0,
+      "oferta": 1300,
+      "recambio": -0.1,
+      "brecha": 6.26,
+      "agebs": 305,
+      "alcaldia": "Gustavo A. Madero",
+      "por_10k_60": 63.9
+    },
+    {
+      "CVE_MUN": "09006",
+      "pob": 404695,
+      "p60": 70906.0,
+      "oferta": 464,
+      "recambio": -0.08,
+      "brecha": 6.38,
+      "agebs": 110,
+      "alcaldia": "Iztacalco",
+      "por_10k_60": 65.4
+    },
+    {
+      "CVE_MUN": "09007",
+      "pob": 1835486,
+      "p60": 262062.0,
+      "oferta": 2315,
+      "recambio": 0.27,
+      "brecha": 4.86,
+      "agebs": 458,
+      "alcaldia": "Iztapalapa",
+      "por_10k_60": 88.3
+    },
+    {
+      "CVE_MUN": "09008",
+      "pob": 246428,
+      "p60": 37979.0,
+      "oferta": 217,
+      "recambio": 0.31,
+      "brecha": 7.55,
+      "agebs": 52,
+      "alcaldia": "Magdalena Contreras",
+      "por_10k_60": 57.1
+    },
+    {
+      "CVE_MUN": "09009",
+      "pob": 128710,
+      "p60": 14747.0,
+      "oferta": 202,
+      "recambio": -1.46,
+      "brecha": 3.39,
+      "agebs": 42,
+      "alcaldia": "Milpa Alta",
+      "por_10k_60": 137.0
+    },
+    {
+      "CVE_MUN": "09010",
+      "pob": 759003,
+      "p60": 122310.0,
+      "oferta": 654,
+      "recambio": 0.22,
+      "brecha": 10.82,
+      "agebs": 199,
+      "alcaldia": "Alvaro Obregon",
+      "por_10k_60": 53.5
+    },
+    {
+      "CVE_MUN": "09011",
+      "pob": 382271,
+      "p60": 45684.0,
+      "oferta": 530,
+      "recambio": -0.66,
+      "brecha": 3.76,
+      "agebs": 110,
+      "alcaldia": "Tlahuac",
+      "por_10k_60": 116.0
+    },
+    {
+      "CVE_MUN": "09012",
+      "pob": 681501,
+      "p60": 107553.0,
+      "oferta": 727,
+      "recambio": 0.75,
+      "brecha": 6.89,
+      "agebs": 207,
+      "alcaldia": "Tlalpan",
+      "por_10k_60": 67.6
+    },
+    {
+      "CVE_MUN": "09013",
+      "pob": 429481,
+      "p60": 60006.0,
+      "oferta": 482,
+      "recambio": -0.15,
+      "brecha": 7.12,
+      "agebs": 122,
+      "alcaldia": "Xochimilco",
+      "por_10k_60": 80.3
+    },
+    {
+      "CVE_MUN": "09014",
+      "pob": 434153,
+      "p60": 87344.0,
+      "oferta": 616,
+      "recambio": -0.48,
+      "brecha": 6.12,
+      "agebs": 102,
+      "alcaldia": "Benito Juarez",
+      "por_10k_60": 70.5
+    },
+    {
+      "CVE_MUN": "09015",
+      "pob": 545884,
+      "p60": 93807.0,
+      "oferta": 941,
+      "recambio": -1.05,
+      "brecha": 5.2,
+      "agebs": 153,
+      "alcaldia": "Cuauhtemoc",
+      "por_10k_60": 100.3
+    },
+    {
+      "CVE_MUN": "09016",
+      "pob": 414470,
+      "p60": 71107.0,
+      "oferta": 438,
+      "recambio": -1.79,
+      "brecha": 5.78,
+      "agebs": 130,
+      "alcaldia": "Miguel Hidalgo",
+      "por_10k_60": 61.6
+    },
+    {
+      "CVE_MUN": "09017",
+      "pob": 443704,
+      "p60": 78964.0,
+      "oferta": 482,
+      "recambio": 0.0,
+      "brecha": 7.5,
+      "agebs": 151,
+      "alcaldia": "Venustiano Carranza",
+      "por_10k_60": 61.0
+    }
+  ],
+  "serie_ciudad": [
+    {
+      "anio": 2016,
+      "mes": 1,
+      "oferta": 9886
+    },
+    {
+      "anio": 2017,
+      "mes": 3,
+      "oferta": 10010
+    },
+    {
+      "anio": 2018,
+      "mes": 3,
+      "oferta": 10053
+    },
+    {
+      "anio": 2019,
+      "mes": 4,
+      "oferta": 10033
+    },
+    {
+      "anio": 2020,
+      "mes": 4,
+      "oferta": 9685
+    },
+    {
+      "anio": 2021,
+      "mes": 5,
+      "oferta": 9819
+    },
+    {
+      "anio": 2022,
+      "mes": 5,
+      "oferta": 9827
+    },
+    {
+      "anio": 2023,
+      "mes": 11,
+      "oferta": 9868
+    },
+    {
+      "anio": 2024,
+      "mes": 5,
+      "oferta": 10023
+    },
+    {
+      "anio": 2025,
+      "mes": 5,
+      "oferta": 10377
+    },
+    {
+      "anio": 2026,
+      "mes": 5,
+      "oferta": 10568
+    }
+  ],
+  "recambio_medio_ciudad": 5.181,
+  "recomendaciones": [
+    {
+      "horizonte": "1 año",
+      "anio": 2027,
+      "confianza": "alta",
+      "titulo": "Abrir donde la brecha ya es peor",
+      "criterio": "Zonas con mayor brecha proyectada a 2027. A un año la recomendación casi no depende del modelo: la demanda ya está instalada y la oferta apenas se mueve entre cortes.",
+      "dato": "La demanda de la ciudad pasa de 1,486,637 personas de 60 y más en 2020 a 1,870,304 en 2027. Las zonas del percentil 90 superan una brecha de 95 personas por unidad de servicio accesible.",
+      "accion": "Decisión de apertura inmediata.",
+      "nota": "Universo: 2,138 de 2,431 AGEB. Se excluyen 293 con menos de 200 personas de 60 y más, que son 1.8% de la demanda de la ciudad: ahí el cociente se dispara por denominador chico, no porque haya una decisión que tomar.",
+      "zonas": [
+        {
+          "cve": "0901600010853",
+          "colonia": "AGEB 0853",
+          "alcaldia": "Miguel Hidalgo",
+          "p60": 766,
+          "oferta": 0,
+          "acc": 8.1,
+          "envejecimiento": 4.01,
+          "brecha": 274.04
+        },
+        {
+          "cve": "0901500010362",
+          "colonia": "NONOALCO TLATELOLCO",
+          "alcaldia": "Cuauhtemoc",
+          "p60": 765,
+          "oferta": 2,
+          "acc": 62.9,
+          "envejecimiento": 4.11,
+          "brecha": 269.62
+        },
+        {
+          "cve": "0900700014804",
+          "colonia": "SAN JUAN XALPA",
+          "alcaldia": "Iztapalapa",
+          "p60": 438,
+          "oferta": 0,
+          "acc": 55.8,
+          "envejecimiento": 4.54,
+          "brecha": 245.07
+        }
+      ]
+    },
+    {
+      "horizonte": "3 años",
+      "anio": 2029,
+      "confianza": "media",
+      "titulo": "Preparar terreno donde la brecha va a subir más",
+      "criterio": "Zonas que hoy NO están en el 10% de peor brecha y en 2029 sí entran, ordenadas por cuántas personas de 60 y más se suman entre 2027 y 2029. Ordenamos por personas y no por saltos de posición a propósito: un cociente con denominador chico brinca mucho con poca gente. Este es el horizonte que defendemos: la inercia demográfica ya se nota y el error de proyección todavía es manejable.",
+      "dato": "La demanda sube de 1,870,304 a 1,997,100 personas de 60 y más entre 2027 y 2029, un alza de 6.8%.",
+      "accion": "Búsqueda de local y negociación de renta, no apertura aún.",
+      "nota": "Universo: 2,138 de 2,431 AGEB. Se excluyen 293 con menos de 200 personas de 60 y más, que son 1.8% de la demanda de la ciudad: ahí el cociente se dispara por denominador chico, no porque haya una decisión que tomar.",
+      "zonas": [
+        {
+          "cve": "0900700015925",
+          "colonia": "SAN NICOLÁS TOLENTINO",
+          "alcaldia": "Iztapalapa",
+          "p60": 380,
+          "oferta": 1,
+          "acc": 60.8,
+          "envejecimiento": 0.76,
+          "brecha": 39.01,
+          "salto_posiciones": 20.0,
+          "personas_sumadas": 83.79
+        },
+        {
+          "cve": "0900700011975",
+          "colonia": "CERRO DE LA ESTRELLA",
+          "alcaldia": "Iztapalapa",
+          "p60": 396,
+          "oferta": 0,
+          "acc": 83.1,
+          "envejecimiento": -0.66,
+          "brecha": 38.67,
+          "salto_posiciones": 9.0,
+          "personas_sumadas": 58.98
+        },
+        {
+          "cve": "090130001146A",
+          "colonia": "AMPLIACION GUADALUPE",
+          "alcaldia": "Xochimilco",
+          "p60": 227,
+          "oferta": 0,
+          "acc": 4.4,
+          "envejecimiento": -2.42,
+          "brecha": 39.0,
+          "salto_posiciones": 38.0,
+          "personas_sumadas": 53.66
+        }
+      ]
+    },
+    {
+      "horizonte": "5 años",
+      "anio": 2031,
+      "confianza": "baja: es escenario, no pronóstico",
+      "titulo": "Vigilar donde envejece rápido y hay poca oferta alcanzable",
+      "criterio": "Cruce de dos señales: envejecimiento muy por encima del promedio de la ciudad y accesibilidad por debajo. A cinco años no afirmamos un ranking de zonas concretas; señalamos un patrón que conviene monitorear con el DENUE semestral.",
+      "dato": "A 2031 la demanda llega a 2,132,493 personas de 60 y más, 43% más que en 2020. El intervalo de confianza se ensancha con la raíz del horizonte.",
+      "accion": "Monitoreo semestral, no compromiso de capital.",
+      "nota": "Universo: 2,138 de 2,431 AGEB. Se excluyen 293 con menos de 200 personas de 60 y más, que son 1.8% de la demanda de la ciudad: ahí el cociente se dispara por denominador chico, no porque haya una decisión que tomar.",
+      "zonas": [
+        {
+          "cve": "0900500010525",
+          "colonia": "NUEVA INDUSTRIAL VALLEJO",
+          "alcaldia": "Gustavo A. Madero",
+          "p60": 524,
+          "oferta": 3,
+          "acc": 19.3,
+          "envejecimiento": 13.41,
+          "riesgo": 6.19
+        },
+        {
+          "cve": "0901200012070",
+          "colonia": "AMPLIACIÓN FUENTES DEL PEDREGAL",
+          "alcaldia": "Tlalpan",
+          "p60": 471,
+          "oferta": 1,
+          "acc": 28.9,
+          "envejecimiento": 8.81,
+          "riesgo": 4.23
+        },
+        {
+          "cve": "0901600011298",
+          "colonia": "AGEB 1298",
+          "alcaldia": "Miguel Hidalgo",
+          "p60": 434,
+          "oferta": 0,
+          "acc": 5.3,
+          "envejecimiento": 6.58,
+          "riesgo": 4.15
+        }
+      ]
+    }
+  ],
+  "diagnostico": {
+    "empate_censos": {
+      "agebs_censo_2020": 2433,
+      "agebs_censo_2010": 2432,
+      "agebs_empatadas": 2418,
+      "tasa_empate": 0.9938,
+      "nuevas_en_2020": 3,
+      "desaparecidas_desde_2010": 2
+    },
+    "backtest": {
+      "transiciones_entrenamiento": [
+        "2016->2017",
+        "2017->2018",
+        "2018->2019",
+        "2020->2021",
+        "2021->2022",
+        "2022->2023"
+      ],
+      "transiciones_prueba": [
+        "2023->2024",
+        "2025->2026"
+      ],
+      "n_observaciones_entrenamiento": 14586,
+      "n_observaciones_prueba": 4862,
+      "modelo": {
+        "precision_top_k_nivel": 0.68,
+        "precision_top_k_cambio": 0.1,
+        "spearman_nivel": 0.92,
+        "spearman_cambio": 0.073,
+        "mae": 2.146
+      },
+      "incertidumbre": {
+        "nivel_nominal": 0.8,
+        "cobertura_observada": 0.758,
+        "ancho_intervalo": 2.388,
+        "nota": "La prediccion conforme garantiza cobertura bajo intercambiabilidad. Dos periodos distintos no son intercambiables: la ciudad cambia. La diferencia entre el nivel nominal y la cobertura observada MIDE ese desplazamiento. Se reporta la observada."
+      },
+      "baselines": {
+        "sin_cambio": {
+          "precision_top_k_nivel": 0.92,
+          "precision_top_k_cambio": 0.08,
+          "spearman_nivel": 0.994,
+          "spearman_cambio": NaN
+        },
+        "tendencia_lineal": {
+          "precision_top_k_nivel": 0.72,
+          "precision_top_k_cambio": 0.04,
+          "spearman_nivel": 0.925,
+          "spearman_cambio": -0.005
+        },
+        "crecimiento_pob": {
+          "precision_top_k_nivel": 0.68,
+          "precision_top_k_cambio": 0.02,
+          "spearman_nivel": 0.973,
+          "spearman_cambio": 0.076
+        }
+      },
+      "coeficientes": {
+        "const": -4.5669,
+        "log_n": 1.3212,
+        "log_acc": 0.3354,
+        "log_dens": -0.6412,
+        "tasa_60": 2.1863,
+        "crec_60": -0.2137,
+        "grs_z": 0.0534
+      },
+      "efectos_multiplicativos": {
+        "const": 0.0104,
+        "log_n": 3.7479,
+        "log_acc": 1.3986,
+        "log_dens": 0.5267,
+        "tasa_60": 8.9023,
+        "crec_60": 0.8076,
+        "grs_z": 1.0549
+      },
+      "pseudo_r2_devianza": 0.729,
+      "mejor_baseline_nivel": 0.92,
+      "mejor_baseline_cambio": 0.08,
+      "vence_en_nivel": false,
+      "vence_en_cambio": true,
+      "lectura": "En NIVEL, el baseline 'sin cambio' es casi imbatible porque el conteo de establecimientos por AGEB apenas se mueve entre cortes. Eso no dice que el baseline prediga bien: dice que la serie es estable. La prueba informativa es la de CAMBIO, que es lo que el reto pregunta."
+    },
+    "desiertos": {
+      "por_contencion": 449,
+      "por_cobertura": 0,
+      "accesibilidad_min": 2.02,
+      "accesibilidad_p05": 14.19,
+      "accesibilidad_mediana": 60.37,
+      "accesibilidad_max": 303.65,
+      "hallazgo": "La version ingenua marca 449 AGEB como desierto. Al medir cobertura a 800 m no queda ninguna: la AGEB peor servida de la ciudad alcanza el equivalente a 2 establecimientos. El problema de la CDMX no es ausencia de farmacias, es saturacion desigual."
+    },
+    "dispersion": {
+      "media": 4.124,
+      "varianza": 45.044,
+      "razon": 10.923,
+      "recomendacion": "negbin"
+    },
+    "transiciones_usadas": [
+      "2016->2017",
+      "2017->2018",
+      "2018->2019",
+      "2020->2021",
+      "2021->2022",
+      "2022->2023",
+      "2023->2024",
+      "2025->2026"
+    ],
+    "transiciones_excluidas": {
+      "pares": [
+        "2019->2020",
+        "2024->2025"
+      ],
+      "motivo": "Rupturas de serie del DENUE. Entre esos cortes varias clases saltan sin que haya aperturas o cierres reales, muy probablemente por cambio de version del catalogo SCIAN."
+    },
+    "sensibilidad_ancho_banda": {
+      "500": {
+        "desiertos": 0,
+        "correlacion_con_800m": 0.9351
+      },
+      "800": {
+        "desiertos": 0,
+        "correlacion_con_800m": 1.0
+      },
+      "1200": {
+        "desiertos": 0,
+        "correlacion_con_800m": 0.9681
+      }
+    },
+    "validacion_ageb_declarada": {
+      "disponible": true,
+      "n_comparados": 65842,
+      "n_fuera_de_poligono": 551,
+      "coincidencia": 0.9984
+    },
+    "recambio": {
+      "cambio_medio_ciudad_pp": 5.181,
+      "absoluto": {
+        "envejecieron": 2358,
+        "rejuvenecieron": 30
+      },
+      "relativo": {
+        "mas_rapido_que_la_ciudad": 1088,
+        "mas_lento_que_la_ciudad": 1300
+      },
+      "nota": "Casi toda la CDMX envejecio entre 2010 y 2020: medir contra cero no distingue nada. La medida informativa es el apartamiento respecto al promedio de la ciudad."
+    },
+    "marco_geoestadistico": {
+      "annadas_disponibles": [
+        {
+          "annada": 2020,
+          "n_ageb": 2431,
+          "ruta": "09a.shp"
+        },
+        {
+          "annada": 2021,
+          "n_ageb": 2431,
+          "ruta": "09a.shp"
+        },
+        {
+          "annada": 2022,
+          "n_ageb": 2431,
+          "ruta": "09a.shp"
+        },
+        {
+          "annada": 2023,
+          "n_ageb": 2431,
+          "ruta": "09a.shp"
+        },
+        {
+          "annada": 2024,
+          "n_ageb": 2430,
+          "ruta": "09a.shp"
+        },
+        {
+          "annada": 2025,
+          "n_ageb": 2430,
+          "ruta": "09a.shp"
+        }
+      ],
+      "annada_usada": 2020,
+      "n_agebs": 2431,
+      "crs": "EPSG:6372",
+      "nota": "Se usa la annada 2020 porque sus claves CVEGEO son las del Censo 2020. Las annadas 2021-2025 sirven para verificar estabilidad territorial."
+    },
+    "denue": [
+      {
+        "anio": 2016,
+        "mes": 1,
+        "n_total_clases": 67243,
+        "n_oferta": 9888,
+        "descartados_por_coordenada": 0
+      },
+      {
+        "anio": 2017,
+        "mes": 3,
+        "n_total_clases": 67886,
+        "n_oferta": 10012,
+        "descartados_por_coordenada": 0
+      },
+      {
+        "anio": 2018,
+        "mes": 3,
+        "n_total_clases": 68003,
+        "n_oferta": 10055,
+        "descartados_por_coordenada": 1
+      },
+      {
+        "anio": 2019,
+        "mes": 4,
+        "n_total_clases": 68015,
+        "n_oferta": 10035,
+        "descartados_por_coordenada": 0
+      },
+      {
+        "anio": 2020,
+        "mes": 4,
+        "n_total_clases": 63601,
+        "n_oferta": 9691,
+        "descartados_por_coordenada": 0
+      },
+      {
+        "anio": 2021,
+        "mes": 5,
+        "n_total_clases": 63878,
+        "n_oferta": 9825,
+        "descartados_por_coordenada": 2
+      },
+      {
+        "anio": 2022,
+        "mes": 5,
+        "n_total_clases": 63930,
+        "n_oferta": 9833,
+        "descartados_por_coordenada": 0
+      },
+      {
+        "anio": 2023,
+        "mes": 11,
+        "n_total_clases": 63874,
+        "n_oferta": 9874,
+        "descartados_por_coordenada": 0
+      },
+      {
+        "anio": 2024,
+        "mes": 5,
+        "n_total_clases": 64551,
+        "n_oferta": 10029,
+        "descartados_por_coordenada": 0
+      },
+      {
+        "anio": 2025,
+        "mes": 5,
+        "n_total_clases": 65615,
+        "n_oferta": 10389,
+        "descartados_por_coordenada": 0
+      },
+      {
+        "anio": 2026,
+        "mes": 5,
+        "n_total_clases": 66393,
+        "n_oferta": 10580,
+        "descartados_por_coordenada": 0
+      }
+    ],
+    "coneval": {
+      "n_agebs": 2410
+    }
+  },
+  "validacion_espacial": {
+    "spearman_promedio": 0.919,
+    "por_alcaldia": [
+      {
+        "cve_mun": "09002",
+        "alcaldia": "Azcapotzalco",
+        "n": 824,
+        "spearman": 0.907,
+        "mae": 2.0
+      },
+      {
+        "cve_mun": "09003",
+        "alcaldia": "Coyoacan",
+        "n": 1248,
+        "spearman": 0.919,
+        "mae": 3.716
+      },
+      {
+        "cve_mun": "09004",
+        "alcaldia": "Cuajimalpa",
+        "n": 248,
+        "spearman": 0.91,
+        "mae": 9.206
+      },
+      {
+        "cve_mun": "09005",
+        "alcaldia": "Gustavo A. Madero",
+        "n": 2440,
+        "spearman": 0.937,
+        "mae": 2.564
+      },
+      {
+        "cve_mun": "09006",
+        "alcaldia": "Iztacalco",
+        "n": 880,
+        "spearman": 0.92,
+        "mae": 2.004
+      },
+      {
+        "cve_mun": "09007",
+        "alcaldia": "Iztapalapa",
+        "n": 3664,
+        "spearman": 0.932,
+        "mae": 3.151
+      },
+      {
+        "cve_mun": "09008",
+        "alcaldia": "Magdalena Contreras",
+        "n": 416,
+        "spearman": 0.901,
+        "mae": 2.356
+      },
+      {
+        "cve_mun": "09009",
+        "alcaldia": "Milpa Alta",
+        "n": 336,
+        "spearman": 0.946,
+        "mae": 5.489
+      },
+      {
+        "cve_mun": "09010",
+        "alcaldia": "Alvaro Obregon",
+        "n": 1592,
+        "spearman": 0.902,
+        "mae": 1.989
+      },
+      {
+        "cve_mun": "09011",
+        "alcaldia": "Tlahuac",
+        "n": 880,
+        "spearman": 0.943,
+        "mae": 2.664
+      },
+      {
+        "cve_mun": "09012",
+        "alcaldia": "Tlalpan",
+        "n": 1656,
+        "spearman": 0.926,
+        "mae": 3.47
+      },
+      {
+        "cve_mun": "09013",
+        "alcaldia": "Xochimilco",
+        "n": 976,
+        "spearman": 0.935,
+        "mae": 4.2
+      },
+      {
+        "cve_mun": "09014",
+        "alcaldia": "Benito Juarez",
+        "n": 816,
+        "spearman": 0.896,
+        "mae": 3.709
+      },
+      {
+        "cve_mun": "09015",
+        "alcaldia": "Cuauhtemoc",
+        "n": 1224,
+        "spearman": 0.932,
+        "mae": 9.01
+      },
+      {
+        "cve_mun": "09016",
+        "alcaldia": "Miguel Hidalgo",
+        "n": 1040,
+        "spearman": 0.894,
+        "mae": 2.507
+      },
+      {
+        "cve_mun": "09017",
+        "alcaldia": "Venustiano Carranza",
+        "n": 1208,
+        "spearman": 0.9,
+        "mae": 1.39
+      }
+    ]
+  },
+  "conapo_fuente": "CONAPO, proyecciones 2023, via diagnostico INEGI-CONAPO-INAPAM. Cifra publicada: la CDMX pasa de 15.2% de poblacion de 60 y mas en 2020 a 21.1% en 2030.",
+  "fuentes": [
+    {
+      "n": "Censo de Poblacion y Vivienda 2020, resultados por AGEB y manzana urbana",
+      "i": "INEGI",
+      "g": "AGEB",
+      "t": "2020"
+    },
+    {
+      "n": "Censo de Poblacion y Vivienda 2010, resultados por AGEB y manzana urbana",
+      "i": "INEGI",
+      "g": "AGEB",
+      "t": "2010"
+    },
+    {
+      "n": "DENUE, 11 ediciones",
+      "i": "INEGI",
+      "g": "punto georreferenciado",
+      "t": "2016-2026"
+    },
+    {
+      "n": "Marco Geoestadistico, 6 annadas",
+      "i": "INEGI",
+      "g": "AGEB",
+      "t": "2020-2025"
+    },
+    {
+      "n": "Grado de Rezago Social por AGEB urbana",
+      "i": "CONEVAL",
+      "g": "AGEB",
+      "t": "2020"
+    },
+    {
+      "n": "Proyecciones de poblacion",
+      "i": "CONAPO",
+      "g": "entidad",
+      "t": "2020-2030"
+    }
+  ]
+}
