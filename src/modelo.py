@@ -225,12 +225,62 @@ def ancho_conforme(y_cal, pred_cal, nivel: float = None) -> float:
 # ==========================================================================
 # 4. BRECHA
 # ==========================================================================
-def peso_gasto(grs: pd.Series) -> pd.Series:
+def _normalizar(x: pd.Series, lo_q=0.05, hi_q=0.95) -> pd.Series:
     """
-    Capacidad de pago aproximada a partir del grado de rezago social.
-    grs 1 (muy bajo rezago) -> 1.0 ;  grs 5 (muy alto) -> 0.2
+    Lleva una serie a 0-1 entre sus percentiles 5 y 95, recortando las colas.
+
+    Se usan percentiles y no el minimo y maximo porque el archivo del CONEVAL
+    tiene AGEB con 0% y con 100%, casi siempre de poblacion minuscula, y esos
+    extremos aplastarian a las 2,400 zonas de en medio.
     """
-    return ((6 - grs.fillna(3)) / 5.0).clip(0.2, 1.0)
+    x = pd.to_numeric(x, errors="coerce")
+    lo, hi = float(x.quantile(lo_q)), float(x.quantile(hi_q))
+    if not np.isfinite(lo) or not np.isfinite(hi) or hi <= lo:
+        return pd.Series(0.5, index=x.index)
+    return ((x - lo) / (hi - lo)).clip(0, 1).fillna(0.5)
+
+
+def peso_dependencia(sin_salud: pd.Series) -> pd.Series:
+    """
+    Peso de NECESIDAD, y peso por omision del proyecto.
+
+    Sale del porcentaje de poblacion SIN derechohabiencia a servicios de salud
+    del CONEVAL, normalizado entre los percentiles 5 y 95 de la ciudad y
+    llevado al rango 0.2 - 1.0.
+
+        ~16% sin derechohabiencia -> 0.2   casi todos tienen IMSS o seguro
+        ~38% sin derechohabiencia -> 1.0   la farmacia es la primera opcion
+
+    POR QUE ESTA VARIABLE Y NO EL GRADO DE REZAGO. La retroalimentacion del
+    Dr. Incera fue que quien entra a un consultorio de farmacia no es
+    principalmente el adulto mayor sino quien no tiene otra opcion, y que la
+    variable determinante es el ingreso. La primera version de este peso usaba
+    el Grado de Rezago Social, que es ordinal de 1 a 5 y esta calibrado a
+    escala NACIONAL: dentro de la CDMX deja 948 AGEB en 'Muy bajo' y 1,234 en
+    'Bajo', o sea 90% de la ciudad en dos niveles. No discriminaba.
+
+    El porcentaje sin derechohabiencia es continuo, es por AGEB, y mide
+    directamente el mecanismo: quien no tiene IMSS, ISSSTE ni seguro privado
+    es quien termina en el consultorio de la farmacia. No es un proxy de
+    ingreso, es la consecuencia del ingreso que nos importa.
+
+    Efecto medible: sin este peso la zona numero uno de la ciudad era Lomas de
+    Chapultepec, con 766 personas de 60 y mas y cero comercio adentro por uso
+    de suelo. La brecha fisica ahi es real, pero esa poblacion no depende de
+    una farmacia del ahorro.
+    """
+    return (0.2 + 0.8 * _normalizar(sin_salud)).clip(0.2, 1.0)
+
+
+def peso_gasto(sin_salud: pd.Series) -> pd.Series:
+    """
+    Peso COMERCIAL: el espejo exacto del de dependencia.
+
+    Donde casi todos tienen derechohabiencia hay mas capacidad de pago, asi
+    que este peso contesta la otra pregunta legitima: donde hay clientes que
+    gastan. Es la pregunta de negocio pura, y en el visor es un selector.
+    """
+    return (1.2 - peso_dependencia(sin_salud)).clip(0.2, 1.0)
 
 
 def brecha(demanda: pd.Series, oferta: pd.Series) -> pd.Series:

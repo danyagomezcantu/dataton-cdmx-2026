@@ -59,8 +59,26 @@ def main():
     # ------------------------------------------------------------ 3. CONEVAL
     log("\n[3/8] CONEVAL — grado de rezago social")
     grs = carga.cargar_coneval(carga.buscar("GRS_AGEB_urbana_2020.xlsx"))
+    ss = grs["sin_salud"].dropna()
     log(f"  {len(grs)} AGEB con grado asignado")
-    diag["coneval"] = {"n_agebs": int(len(grs))}
+    log(f"  sin derechohabiencia a servicios de salud: "
+        f"p05 {ss.quantile(.05):.1f}%  mediana {ss.median():.1f}%  "
+        f"p95 {ss.quantile(.95):.1f}%")
+    diag["coneval"] = {
+        "n_agebs": int(len(grs)),
+        "grado_rezago_distribucion": grs["grs_texto"].value_counts().to_dict(),
+        "sin_derechohabiencia_pct": {
+            "p05": round(float(ss.quantile(.05)), 1),
+            "mediana": round(float(ss.median()), 1),
+            "p95": round(float(ss.quantile(.95)), 1),
+            "n": int(len(ss)),
+        },
+        "nota": ("El Grado de Rezago Social es ordinal y esta calibrado a escala "
+                 "nacional: deja 948 AGEB de la CDMX en 'Muy bajo' y 1,234 en "
+                 "'Bajo', o sea 90% de la ciudad en dos niveles. Por eso el peso "
+                 "de dependencia usa el porcentaje sin derechohabiencia, que es "
+                 "continuo y mide el mecanismo directamente."),
+    }
 
     # ------------------------------------------------------------ 4. DENUE
     log("\n[4/8] DENUE — 11 cortes")
@@ -80,8 +98,18 @@ def main():
 
     # nombres de colonia por AGEB, para el buscador del visor
     colonias = carga.colonias_por_ageb(capas[cfg.ANIO_BASE])
-    log(f"  colonias identificadas en {len(colonias)} AGEB")
-    diag["colonias"] = {"agebs_con_nombre": int(len(colonias))}
+    n_directo = len(colonias)
+    colonias = carga.completar_por_vecindad(agebs, colonias)
+    log(f"  colonias: {n_directo} por establecimiento dentro, "
+        f"{len(colonias) - n_directo} completadas por vecindad")
+    diag["colonias"] = {
+        "por_establecimiento_dentro": n_directo,
+        "completadas_por_vecindad": int(len(colonias) - n_directo),
+        "agebs_con_nombre": int(len(colonias)),
+        "nota": ("Una AGEB estrictamente residencial no tiene negocios adentro, "
+                 "asi que no hay de donde leer su nombre. Esas se completan con "
+                 "las colonias colindantes y se marcan con '~'."),
+    }
 
     # verificacion cruzada contra la AGEB declarada por el INEGI
     v = espacial.validar_ageb_declarada(agebs, capas[2026])
@@ -203,6 +231,10 @@ def main():
     razon_acc = (t[f"acc_{cfg.ANIO_BASE}"] /
                  t[f"n_{cfg.ANIO_BASE}"].replace(0, np.nan)).median()
     razon_acc = float(razon_acc) if np.isfinite(razon_acc) else 1.0
+    # Se guarda porque el visor la necesita: la brecha NO divide entre el
+    # conteo dentro de la zona, divide entre la oferta ALCANZABLE, y sin esta
+    # razon el panel de detalle enseniaba una division que no cerraba.
+    diag["razon_accesible_por_establecimiento"] = round(razon_acc, 3)
 
     for esc in cfg.ESCENARIOS:
         for anio in cfg.ANIOS_PROY:
@@ -230,13 +262,61 @@ def main():
             t[f"brecha_hi_{esc}_{anio}"] = modelo.brecha(
                 d, pd.Series(np.maximum(acc_proy - h * razon_acc, 0), index=t.index))
 
-    # dos modos de reporte
-    pg = modelo.peso_gasto(t["grs"])
+    # --- los dos modos de lectura -----------------------------------------
+    # La brecha cruda mide distancia fisica al servicio. Pero el segmento no
+    # es "adultos mayores", es quien DEPENDE de atencion primaria de bajo
+    # costo, y eso se pondera con el rezago social. Los dos pesos son espejo:
+    #
+    #   necesidad  = brecha x dependencia  (rezago alto pesa mas)
+    #   comercial  = brecha x capacidad de pago (rezago bajo pesa mas)
+    #
+    # Se exportan los DOS pesos por zona y el visor multiplica en el navegador,
+    # asi el juez cambia de pregunta con un selector y sin recargar nada.
+    t["w_necesidad"] = modelo.peso_dependencia(t["sin_salud"])
+    t["w_comercial"] = modelo.peso_gasto(t["sin_salud"])
     for anio in cfg.ANIOS_PROY:
         base = t[f"brecha_tendencial_{anio}"]
-        t[f"comercial_{anio}"] = base * pg
-        t[f"necesidad_{anio}"] = base
-    t["categoria"] = modelo.categorizar(t[f"brecha_tendencial_{cfg.ANIOS_PROY[1]}"])
+        t[f"necesidad_{anio}"] = base * t["w_necesidad"]
+        t[f"comercial_{anio}"] = base * t["w_comercial"]
+    # La categoria se calcula sobre el modo por omision, no sobre la cruda.
+    t["categoria"] = modelo.categorizar(t[f"{cfg.MODO_BASE}_{cfg.ANIOS_PROY[1]}"])
+
+    n_cambia = int((t[f"necesidad_{cfg.ANIOS_PROY[1]}"].rank(ascending=False) <= 50).ne(
+        t[f"comercial_{cfg.ANIOS_PROY[1]}"].rank(ascending=False) <= 50).sum())
+    diag["modos"] = {
+        "modo_base": cfg.MODO_BASE,
+        "segmento": cfg.SEGMENTO,
+        "zonas_que_cambian_en_el_top_50": n_cambia,
+        "nota": ("La brecha cruda mide distancia fisica. Ponderada por "
+                 "dependencia mide a quien le duele esa distancia. Cambiar de "
+                 "modo mueve el top-50 en "
+                 f"{n_cambia} zonas: no es un matiz, es otra pregunta."),
+    }
+    log(f"  modos: cambiar necesidad<->comercial mueve {n_cambia} zonas del top-50")
+
+    # --- saturacion: el otro modo de fracaso -------------------------------
+    # Una farmacia no solo fracasa por falta de demanda. Tambien fracasa por
+    # sobreoferta, y por ausencia de mercado. Mostrar solo el extremo alto de
+    # la brecha deja fuera media recomendacion.
+    b_ref = t[f"{cfg.MODO_BASE}_{cfg.ANIOS_PROY[1]}"]
+    t["pct_brecha"] = b_ref.rank(pct=True)
+    t["saturada"] = ((t["pct_brecha"] <= cfg.PCT_SATURACION) &
+                     (t["pobtot_2020"].fillna(0) >= cfg.MIN_POB_MERCADO)).astype(int)
+    t["sin_mercado"] = (t["pobtot_2020"].fillna(0) < cfg.MIN_POB_MERCADO).astype(int)
+    diag["saturacion"] = {
+        "zonas_saturadas": int(t["saturada"].sum()),
+        "zonas_sin_mercado": int(t["sin_mercado"].sum()),
+        "umbral_percentil": cfg.PCT_SATURACION,
+        "umbral_poblacion": cfg.MIN_POB_MERCADO,
+        "lectura": ("Dos modos de fracaso distintos: sobreoferta (hay gente "
+                    "pero ya hay demasiadas alternativas) y ausencia de mercado "
+                    "(no hay suficiente gente). En los dos la recomendacion es "
+                    "no abrir, por razones opuestas."),
+    }
+    log(f"  saturacion: {int(t.saturada.sum())} zonas con sobreoferta, "
+        f"{int(t.sin_mercado.sum())} sin mercado")
+
+    diag["supuestos_mercado"] = cfg.SUPUESTOS_MERCADO
 
     # --- contencion vs cobertura: el hallazgo central ----------------------
     # La version ingenua marca como desierto toda AGEB sin establecimiento
@@ -274,10 +354,15 @@ def main():
     of26 = of26[of26.codigo_act.isin(cfg.SCIAN_OFERTA)]
     for h in cfg.ANCHOS_SENSIBILIDAD:
         a = espacial.accesibilidad(agebs, of26, "a", ancho=h)["a"].to_numpy()
+        ref = t[f"acc_{cfg.ANIO_BASE}"].to_numpy()
+        # La afirmacion que defendemos es que el ORDENAMIENTO de zonas no
+        # depende del ancho de banda, y eso se mide con Spearman (rangos),
+        # no con Pearson (niveles). Se reportan las dos: Pearson dice si los
+        # valores se mueven juntos, Spearman si el ranking se conserva.
         sens[int(h)] = {
             "desiertos": int((a < 0.10).sum()),
-            "correlacion_con_800m": round(float(np.corrcoef(
-                a, t[f"acc_{cfg.ANIO_BASE}"].to_numpy())[0, 1]), 4),
+            "spearman_con_800m": round(modelo.spearman(ref, a), 4),
+            "pearson_con_800m": round(float(np.corrcoef(a, ref)[0, 1]), 4),
         }
     diag["sensibilidad_ancho_banda"] = sens
     log(f"  sensibilidad al ancho de banda: {sens}")

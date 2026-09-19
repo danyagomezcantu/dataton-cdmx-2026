@@ -46,7 +46,21 @@
     "desaparecidas_desde_2010": 2
   },
   "coneval": {
-    "n_agebs": 2410
+    "n_agebs": 2410,
+    "grado_rezago_distribucion": {
+      "Bajo": 1234,
+      "Muy bajo": 948,
+      "Medio": 200,
+      "Alto": 22,
+      "Muy alto": 6
+    },
+    "sin_derechohabiencia_pct": {
+      "p05": 16.2,
+      "mediana": 26.3,
+      "p95": 38.5,
+      "n": 2400
+    },
+    "nota": "El Grado de Rezago Social es ordinal y esta calibrado a escala nacional: deja 948 AGEB de la CDMX en 'Muy bajo' y 1,234 en 'Bajo', o sea 90% de la ciudad en dos niveles. Por eso el peso de dependencia usa el porcentaje sin derechohabiencia, que es continuo y mide el mecanismo directamente."
   },
   "denue": [
     {
@@ -128,7 +142,10 @@
     }
   ],
   "colonias": {
-    "agebs_con_nombre": 2519
+    "por_establecimiento_dentro": 2519,
+    "completadas_por_vecindad": 102,
+    "agebs_con_nombre": 2621,
+    "nota": "Una AGEB estrictamente residencial no tiene negocios adentro, asi que no hay de donde leer su nombre. Esas se completan con las colonias colindantes y se marcan con '~'."
   },
   "validacion_ageb_declarada": {
     "disponible": true,
@@ -257,7 +274,7 @@
       },
       {
         "cve_mun": "09003",
-        "alcaldia": "Coyoacan",
+        "alcaldia": "Coyoacán",
         "n": 1248,
         "spearman": 0.919,
         "mae": 3.716
@@ -306,14 +323,14 @@
       },
       {
         "cve_mun": "09010",
-        "alcaldia": "Alvaro Obregon",
+        "alcaldia": "Álvaro Obregón",
         "n": 1592,
         "spearman": 0.902,
         "mae": 1.989
       },
       {
         "cve_mun": "09011",
-        "alcaldia": "Tlahuac",
+        "alcaldia": "Tláhuac",
         "n": 880,
         "spearman": 0.943,
         "mae": 2.664
@@ -334,14 +351,14 @@
       },
       {
         "cve_mun": "09014",
-        "alcaldia": "Benito Juarez",
+        "alcaldia": "Benito Juárez",
         "n": 816,
         "spearman": 0.896,
         "mae": 3.709
       },
       {
         "cve_mun": "09015",
-        "alcaldia": "Cuauhtemoc",
+        "alcaldia": "Cuauhtémoc",
         "n": 1224,
         "spearman": 0.932,
         "mae": 9.01
@@ -362,6 +379,41 @@
       }
     ]
   },
+  "razon_accesible_por_establecimiento": 14.341,
+  "modos": {
+    "modo_base": "necesidad",
+    "segmento": {
+      "nombre": "Población dependiente de atención primaria de bajo costo",
+      "edad": "60 y más (censo INEGI por AGEB)",
+      "socioeconomico": "Población sin derechohabiencia a servicios de salud, % por AGEB (CONEVAL 2020). Se prefiere al Grado de Rezago Social porque ése es ordinal, está calibrado a escala nacional y deja 90% de la CDMX en dos niveles."
+    },
+    "zonas_que_cambian_en_el_top_50": 76,
+    "nota": "La brecha cruda mide distancia fisica. Ponderada por dependencia mide a quien le duele esa distancia. Cambiar de modo mueve el top-50 en 76 zonas: no es un matiz, es otra pregunta."
+  },
+  "saturacion": {
+    "zonas_saturadas": 295,
+    "zonas_sin_mercado": 120,
+    "umbral_percentil": 0.15,
+    "umbral_poblacion": 500,
+    "lectura": "Dos modos de fracaso distintos: sobreoferta (hay gente pero ya hay demasiadas alternativas) y ausencia de mercado (no hay suficiente gente). En los dos la recomendacion es no abrir, por razones opuestas."
+  },
+  "supuestos_mercado": [
+    {
+      "supuesto": "Mercado simplificado y distancias uniformes",
+      "por_que_es_falso": "El precio, las promociones y el surtido varían entre cadenas.",
+      "que_hariamos": "Incorporar precio relativo por cadena."
+    },
+    {
+      "supuesto": "Cliente perfecto: cada quien va a la farmacia más cercana",
+      "por_que_es_falso": "La gente va a la de su programa de lealtad, o a la que más se anuncia.",
+      "que_hariamos": "Ponderar por participación de mercado de cada cadena."
+    },
+    {
+      "supuesto": "Más oferta implica más atención",
+      "por_que_es_falso": "Dos farmacias a la misma distancia no atienden igual: depende de estrategia comercial.",
+      "que_hariamos": "Datos de tráfico o de consumo, que hoy no son públicos."
+    }
+  ],
   "desiertos": {
     "por_contencion": 449,
     "por_cobertura": 0,
@@ -374,15 +426,18 @@
   "sensibilidad_ancho_banda": {
     "500": {
       "desiertos": 0,
-      "correlacion_con_800m": 0.9351
+      "spearman_con_800m": 0.9426,
+      "pearson_con_800m": 0.9351
     },
     "800": {
       "desiertos": 0,
-      "correlacion_con_800m": 1.0
+      "spearman_con_800m": 1.0,
+      "pearson_con_800m": 1.0
     },
     "1200": {
       "desiertos": 0,
-      "correlacion_con_800m": 0.9681
+      "spearman_con_800m": 0.9673,
+      "pearson_con_800m": 0.9681
     }
   },
   "por_alcaldia": [
@@ -393,7 +448,7 @@
       "farmacias": 605,
       "agebs": 156,
       "recambio": 2.004,
-      "alcaldia": "Coyoacan",
+      "alcaldia": "Coyoacán",
       "farm_por_10k_60mas": 47.791
     },
     {
@@ -413,7 +468,7 @@
       "farmacias": 654,
       "agebs": 199,
       "recambio": 0.217,
-      "alcaldia": "Alvaro Obregon",
+      "alcaldia": "Álvaro Obregón",
       "farm_por_10k_60mas": 53.471
     },
     {
@@ -483,7 +538,7 @@
       "farmacias": 616,
       "agebs": 102,
       "recambio": -0.484,
-      "alcaldia": "Benito Juarez",
+      "alcaldia": "Benito Juárez",
       "farm_por_10k_60mas": 70.526
     },
     {
@@ -523,7 +578,7 @@
       "farmacias": 941,
       "agebs": 153,
       "recambio": -1.052,
-      "alcaldia": "Cuauhtemoc",
+      "alcaldia": "Cuauhtémoc",
       "farm_por_10k_60mas": 100.312
     },
     {
@@ -533,7 +588,7 @@
       "farmacias": 530,
       "agebs": 110,
       "recambio": -0.662,
-      "alcaldia": "Tlahuac",
+      "alcaldia": "Tláhuac",
       "farm_por_10k_60mas": 116.014
     },
     {
@@ -581,14 +636,14 @@
         "factor_deriva": 1.0
       },
       "digitalizacion": {
-        "nombre": "Digitalizacion",
-        "descripcion": "Parte de la demanda de 60+ migra a teleconsulta y compra en linea. Responde a la critica de que el adulto mayor de 2031 tiene cultura digital.",
+        "nombre": "Digitalización",
+        "descripcion": "Parte de la demanda de 60+ migra a teleconsulta y compra en línea. Responde a la crítica de que el adulto mayor de 2031 tiene cultura digital.",
         "factor_demanda": 0.78,
         "factor_deriva": 1.0
       },
       "recambio": {
         "nombre": "Envejecimiento acelerado",
-        "descripcion": "El desplazamiento barrial observado entre 2010 y 2020 se acelera al doble. Responde a la hipotesis de barrios que envejecen y barrios que rejuvenecen.",
+        "descripcion": "El desplazamiento barrial observado entre 2010 y 2020 se acelera al doble. Responde a la hipótesis de barrios que envejecen y barrios que rejuvenecen.",
         "factor_demanda": 1.0,
         "factor_deriva": 2.0
       }

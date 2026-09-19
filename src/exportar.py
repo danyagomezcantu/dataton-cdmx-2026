@@ -61,6 +61,12 @@ def recomendaciones(tabla) -> list:
     a1, a3, a5 = cfg.ANIOS_PROY
     t = tabla.copy()
 
+    # Las recomendaciones salen del MODO POR OMISION (necesidad), no de la
+    # brecha cruda. La brecha cruda mide distancia fisica al servicio; el modo
+    # de necesidad mide a quien le duele esa distancia. Recomendar sobre la
+    # cruda ponia a Lomas de Chapultepec en primer lugar.
+    MB = cfg.MODO_BASE
+
     # Piso de poblacion. La brecha es un cociente y en una AGEB con 10 personas
     # de 60 y mas y cero oferta se dispara sin que exista decision que tomar.
     # Sin este filtro las recomendaciones a 3 y 5 anios nombran zonas de 3 a 20
@@ -89,6 +95,8 @@ def recomendaciones(tabla) -> list:
                 "oferta": int(r[f"n_{cfg.ANIO_BASE}"]),
                 "acc": round(float(r[f"acc_{cfg.ANIO_BASE}"]), 1),
                 "envejecimiento": round(float(r["recambio"]), 2),
+                "rezago": r.get("grs_texto"),
+                "dependencia": round(float(r["w_necesidad"]), 2),
             }
             if extra:
                 d.update({k: (round(float(r[v]), 2) if pd.notna(r[v]) else None)
@@ -97,7 +105,7 @@ def recomendaciones(tabla) -> list:
         return out
 
     # --- 1 anio -----------------------------------------------------------
-    b1 = f"brecha_tendencial_{a1}"
+    b1 = f"{MB}_{a1}"
     corto = tres(t, b1)
     umbral = float(t[b1].quantile(0.90))
 
@@ -107,12 +115,17 @@ def recomendaciones(tabla) -> list:
     # cociente con denominador pequenio se mueve mucho con poca gente. Aqui
     # el corte es binario (entra o no entra al decil) y el desempate es en
     # PERSONAS: cuantos adultos mayores se suman entre a1 y a3.
-    b3 = f"brecha_tendencial_{a3}"
+    b3 = f"{MB}_{a3}"
     t["_r1"] = t[b1].rank(ascending=False)
     t["_r3"] = t[b3].rank(ascending=False)
     t["_salto"] = t["_r1"] - t["_r3"]          # positivo = sube de posicion
     corte = len(t) * 0.10
-    t["_suma"] = t[f"demanda_tendencial_{a3}"] - t[f"demanda_tendencial_{a1}"]
+    # El desempate es en personas DEPENDIENTES sumadas, no en personas crudas.
+    # Sin el peso, este bloque nombraba tres zonas de rezago muy bajo: gente
+    # que suma demanda pero que tiene otras opciones de atencion, lo cual
+    # contradice el segmento que declaramos.
+    t["_suma"] = ((t[f"demanda_tendencial_{a3}"] - t[f"demanda_tendencial_{a1}"])
+                  * t["w_necesidad"])
     cand = t[(t["_r3"] <= corte) & (t["_r1"] > corte)]
     if len(cand) < 3:                           # respaldo: tercio superior
         cand = t[(t["_r3"] <= len(t) / 3) & (t["_r1"] > len(t) / 3)]
@@ -122,7 +135,10 @@ def recomendaciones(tabla) -> list:
     acc = t[f"acc_{cfg.ANIO_BASE}"]
     t["_z_env"] = (t["recambio"] - t["recambio"].mean()) / t["recambio"].std()
     t["_z_acc"] = (acc - acc.mean()) / acc.std()
-    t["_riesgo"] = t["_z_env"] - t["_z_acc"]
+    # el riesgo a 5 anios tambien se pondera: envejecer rapido con poca
+    # oferta pesa mas donde la gente no tiene alternativa
+    t["_z_dep"] = (t["w_necesidad"] - t["w_necesidad"].mean()) / t["w_necesidad"].std()
+    t["_riesgo"] = t["_z_env"] - t["_z_acc"] + t["_z_dep"]
     largo = tres(t, "_riesgo")
 
     # Los totales de ciudad se calculan sobre TODAS las AGEB, no sobre las
@@ -222,8 +238,17 @@ def construir(tabla, diag: dict, limites=None) -> dict:
         "recambio_abs": _lista(t["recambio_abs"], 2),
         "grs": _lista(t["grs"], 0),
         "grs_txt": _lista(t["grs_texto"]),
+        "sin_salud": _lista(t["sin_salud"], 1),
+        "sin_net": _lista(t["sin_internet"], 1),
         "acc_pct": _lista(t["acc_percentil"] * 100, 1),
         "des_cont": _lista(t["desierto_contencion"], 0),
+        "sat": _lista(t["saturada"], 0),
+        "sin_merc": _lista(t["sin_mercado"], 0),
+        # los dos pesos por zona: el visor multiplica en el navegador, asi
+        # cambiar de modo es instantaneo y no cuesta un solo byte extra de
+        # columnas de brecha
+        "w_nec": _lista(t["w_necesidad"], 2),
+        "w_com": _lista(t["w_comercial"], 2),
         "col": _lista(t["colonias"].fillna("")),
         "dem_2026": _lista(t["demanda_2026"], 0),
         "br_2026": _lista(t["brecha_2026"], 2),
@@ -236,16 +261,17 @@ def construir(tabla, diag: dict, limites=None) -> dict:
             cols[f"d_{esc}_{a}"] = _lista(t[f"demanda_{esc}_{a}"], 0)
             cols[f"b_{esc}_{a}"] = _lista(t[f"brecha_{esc}_{a}"], 2)
             cols[f"o_{esc}_{a}"] = _lista(t[f"oferta_{esc}_{a}"], 2)
-    for a in cfg.ANIOS_PROY:
-        cols[f"com_{a}"] = _lista(t[f"comercial_{a}"], 2)
-        cols[f"nec_{a}"] = _lista(t[f"necesidad_{a}"], 2)
+    # necesidad y comercial NO se exportan como columnas: son brecha x peso,
+    # y el visor los calcula. Guardarlos seria duplicar 2,431 numeros x 3 anios
+    # x 2 modos para algo que es una multiplicacion.
 
     # ------------------------------------------------------------ meta
     alc = (tabla.groupby("CVE_MUN")
            .agg(pob=("pobtot_2020", "sum"), p60=("p_60ymas_2020", "sum"),
                 oferta=(f"n_{cfg.ANIO_BASE}", "sum"),
                 recambio=("recambio", "mean"),
-                brecha=(f"brecha_tendencial_{cfg.ANIOS_PROY[1]}", "median"),
+                brecha=(f"{cfg.MODO_BASE}_{cfg.ANIOS_PROY[1]}", "median"),
+                dependencia=("w_necesidad", "mean"),
                 agebs=("CVEGEO", "count"))
            .reset_index())
     alc["alcaldia"] = alc.CVE_MUN.map(cfg.ALCALDIAS)
@@ -258,9 +284,15 @@ def construir(tabla, diag: dict, limites=None) -> dict:
         "meses_denue": cfg.MESES_DENUE,
         "escenarios": {k: {"nombre": v["nombre"], "descripcion": v["descripcion"]}
                        for k, v in cfg.ESCENARIOS.items()},
+        "modos": cfg.MODOS,
+        "modo_base": cfg.MODO_BASE,
+        "segmento": cfg.SEGMENTO,
+        "supuestos_mercado": cfg.SUPUESTOS_MERCADO,
+        "min_p60_reco": cfg.MIN_P60_RECO,
         "scian_oferta": cfg.SCIAN_OFERTA,
         "scian_contexto": cfg.SCIAN_CONTEXTO,
         "ancho_banda_m": cfg.ANCHO_BANDA_M,
+        "razon_acc": diag.get("razon_accesible_por_establecimiento", 1.0),
         "alcaldias_nombre": cfg.ALCALDIAS,
         "alcaldias": alc.round(2).to_dict("records"),
         "serie_ciudad": [{"anio": a, "mes": cfg.MESES_DENUE[a],
@@ -273,7 +305,8 @@ def construir(tabla, diag: dict, limites=None) -> dict:
             ("empate_censos", "backtest", "desiertos", "dispersion",
              "transiciones_usadas", "transiciones_excluidas",
              "sensibilidad_ancho_banda", "validacion_ageb_declarada",
-             "recambio", "marco_geoestadistico", "denue", "coneval")
+             "recambio", "marco_geoestadistico", "denue", "coneval",
+             "modos", "saturacion", "colonias", "validacion_espacial")
             if k in diag
         },
         "validacion_espacial": diag.get("validacion_espacial", {}),

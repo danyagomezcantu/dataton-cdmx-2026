@@ -7,7 +7,7 @@
 <style>
 :root{
   --crema:#FAF7F0; --crema2:#F2EDE3; --crema3:#E8E1D4;
-  --tinta:#3A3226; --tinta2:#6B6152; --tinta3:#968B79;
+  --tinta:#3A3226; --tinta2:#6B6152; --tinta3:#7A7061;
   --amarillo:#F2B705; --azul:#1B5FA8; --rojo:#C8322B; --negro:#1A1712;
   --borde:#DDD5C5;
 }
@@ -20,7 +20,7 @@ header{padding:24px 0 16px;border-bottom:1px solid var(--borde);margin-bottom:16
 .franja{height:5px;border-radius:3px;margin-bottom:16px;
   background:linear-gradient(90deg,var(--amarillo) 0%,var(--amarillo) 22%,
     var(--crema) 34%,var(--azul) 50%,var(--crema) 66%,var(--rojo) 80%,var(--negro) 100%)}
-h1{font-size:25px;font-weight:bold;letter-spacing:-.3px;margin-bottom:6px}
+h1{font-size:23px;font-weight:bold;letter-spacing:-.3px;margin-bottom:6px}
 .tesis{font-size:14px;color:var(--tinta2);max-width:900px}
 .tesis b{color:var(--tinta)}
 .credito{font-size:11.5px;color:var(--tinta3);margin-top:8px}
@@ -115,7 +115,7 @@ button.limpiar:hover{background:var(--crema3)}
 
 .mapa-caja{background:#fff;border:1px solid var(--borde);border-radius:8px;
   padding:10px;position:relative}
-svg#mapa{width:100%;height:74vh;min-height:500px;display:block;
+svg#mapa{width:100%;height:62vh;min-height:420px;display:block;
   background:var(--crema);border-radius:4px}
 svg#mapa path.z{stroke:#fff;stroke-width:.3;cursor:pointer;
   vector-effect:non-scaling-stroke}
@@ -134,7 +134,8 @@ svg#mapa text.etq{font-family:Arial,Helvetica,sans-serif;font-size:9.5px;
 .tooltip b{color:var(--amarillo)}
 .tooltip .tc{color:#fff;font-size:11.5px}
 
-.leyenda{margin-top:11px;padding-bottom:3px}
+.leyenda{margin-bottom:11px;padding:11px 13px;background:var(--crema);
+  border-radius:6px;border:1px solid var(--crema3)}
 .lg-tit{font-size:12px;color:var(--tinta);font-weight:bold;margin-bottom:2px}
 .lg-sub{font-size:11.5px;color:var(--tinta2);margin-bottom:7px;line-height:1.5}
 .lg-esc{display:flex;align-items:center;gap:10px}
@@ -194,6 +195,44 @@ dl.glos dt{font-weight:bold;margin-top:10px}
 dl.glos dd{margin-left:0;color:var(--tinta2);line-height:1.6}
 footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--borde);
   font-size:11.5px;color:var(--tinta3);line-height:1.6}
+
+/* ---------- pestañas ----------
+   El scroll infinito era mala idea aquí: las secciones no son afines entre
+   sí, y para llegar de una a otra había que arrastrar por en medio contenido
+   que al lector no le interesaba. Con pestañas cada público entra directo a
+   lo suyo. */
+.tabs{display:flex;gap:2px;border-bottom:2px solid var(--borde);
+  margin-bottom:16px;flex-wrap:wrap}
+.tab{font-family:inherit;font-size:13.5px;padding:9px 18px;cursor:pointer;
+  background:none;border:none;border-bottom:3px solid transparent;
+  color:var(--tinta2);margin-bottom:-2px;border-radius:5px 5px 0 0}
+.tab:hover{background:var(--crema2);color:var(--tinta)}
+.tab.act{color:var(--tinta);font-weight:bold;border-bottom-color:var(--azul);
+  background:var(--crema2)}
+.pest{display:none}
+.pest.act{display:block}
+
+/* ---------- mapa: leyenda arriba, zoom propio ---------- */
+.lienzo{position:relative}
+.zoom{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;
+  gap:4px;z-index:10}
+.zoom button{width:31px;height:31px;padding:0;font-size:16px;font-weight:bold;
+  line-height:1;background:#fff;border:1px solid var(--borde);border-radius:6px;
+  color:var(--tinta);cursor:pointer;box-shadow:0 1px 4px rgba(58,50,38,.12)}
+.zoom button:hover{background:var(--crema2)}
+
+/* ---------- supuestos de mercado ---------- */
+.sup{border-left:3px solid var(--rojo);background:var(--crema);padding:10px 14px;
+  border-radius:0 6px 6px 0;margin-bottom:9px;font-size:12.5px;line-height:1.6}
+.sup b{color:var(--tinta)}
+.sup .q{color:var(--tinta2)}
+.sup .h{color:var(--tinta3);font-size:11.5px}
+
+/* ---------- selector de modo ---------- */
+.modo-nota{font-size:11.5px;color:var(--tinta2);margin-top:9px;padding:8px 12px;
+  background:var(--crema2);border-radius:6px;line-height:1.55}
+.modo-nota b{color:var(--tinta)}
+small.cve{display:block;font-size:9.5px;color:var(--tinta3);font-variant-numeric:tabular-nums;letter-spacing:.4px}
 </style>
 </head>
 <body>
@@ -202,31 +241,25 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--borde);
 <header>
   <div class="franja"></div>
   <h1>Envejecimiento demográfico y atención primaria en la Ciudad de México</h1>
-  <p class="tesis">No buscamos dónde viven los adultos mayores. Medimos <b>cómo se
-    está recomponiendo la ciudad</b>: qué zonas envejecen más rápido que el promedio
-    y cuáles más lento, y qué le implica ese envejecimiento desigual a la red de farmacias con
-    consultorio en los próximos años.</p>
-  <p class="credito">Datatón ITAM 2026 · reto ANTAD · 2,431 AGEB urbanas ·
+  <p class="tesis">No buscamos dónde viven los adultos mayores. Buscamos
+    <b>quién va a necesitar atención primaria y no va a tener otra opción</b>, y
+    medimos la brecha entre esa demanda y lo que se alcanza caminando, a 1, 3 y 5 años.</p>
+  <p class="credito">Datatón ITAM 2026 · reto ANTAD · 2,431 zonas urbanas ·
     fuentes INEGI, CONEVAL y CONAPO</p>
 </header>
 
-<div class="arranque" id="arranque">
-  <button class="cerrar" id="cerrarArranque" aria-label="Cerrar">✕</button>
-  <h3>Cómo usar esto en un minuto</h3>
-  <ol>
-    <li><b>Busca una colonia</b> que conozcas: escribe Roma, Polanco, Iztapalapa…
-      El mapa la ubica y la selecciona.</li>
-    <li><b>El mapa está dividido en AGEB</b>, las unidades territoriales con las que
-      el INEGI divide la ciudad. Son como colonias pequeñas: 2,431 en la CDMX.</li>
-    <li><b>Cambia qué se mapea</b> con el segundo selector. Debajo aparece siempre
-      una explicación de lo que estás viendo y en qué unidades.</li>
-    <li><b>Haz clic en cualquier zona</b> para ver su detalle y la lectura en
-      palabras de qué le está pasando.</li>
-  </ol>
-</div>
 
-<div class="reco" id="reco"></div>
 
+
+
+<nav class="tabs" role="tablist">
+  <button class="tab act" data-p="mapa" role="tab" aria-selected="true" aria-controls="p-mapa">Mapa</button>
+  <button class="tab" data-p="reco" role="tab" aria-selected="false" aria-controls="p-reco">Recomendaciones</button>
+  <button class="tab" data-p="metodo" role="tab" aria-selected="false" aria-controls="p-metodo">Cómo se hizo</button>
+  <button class="tab" data-p="fuentes" role="tab" aria-selected="false" aria-controls="p-fuentes">Fuentes y límites</button>
+</nav>
+
+<section class="pest act" id="p-mapa" role="tabpanel" aria-label="Mapa">
 <div class="controles">
   <div class="linea">
     <div class="campo buscar">
@@ -243,6 +276,10 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--borde);
     <div class="campo">
       <label for="cap">Qué se mapea</label>
       <select id="cap"></select>
+    </div>
+    <div class="campo">
+      <label for="modo">Qué pregunta contesta</label>
+      <select id="modo"></select>
     </div>
     <div class="campo">
       <label for="esc">Escenario</label>
@@ -264,23 +301,32 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--borde);
         <span>observado ← → proyectado</span><span id="mFin"></span></div>
     </div>
   </div>
-  <div class="ayuda" id="ayuda"></div>
 </div>
 
 <div class="cuerpo">
   <div>
     <div class="mapa-caja">
-      <svg id="mapa" role="img" aria-label="Mapa de las AGEB urbanas de la Ciudad de México"></svg>
-      <div class="tooltip" id="tip"></div>
+      <!-- La leyenda va ARRIBA del mapa. Antes estaba debajo y el ojo llegaba
+           al color sin saber qué significaba: "el rojo presumo que es malo,
+           pero me estás obligando a imaginar cosas". -->
       <div class="leyenda" id="leyenda"></div>
+      <div class="lienzo">
+        <svg id="mapa" role="img" aria-label="Mapa de las zonas urbanas de la Ciudad de México"></svg>
+        <div class="tooltip" id="tip"></div>
+        <div class="zoom">
+          <button id="zmas" title="Acercar">+</button>
+          <button id="zmenos" title="Alejar">−</button>
+          <button id="zreset" title="Ver toda la ciudad">⤢</button>
+        </div>
+      </div>
     </div>
 
     <div class="abajo">
       <div class="panel">
         <h2>Zonas prioritarias — top 12</h2>
         <table>
-          <thead><tr><th>Colonia</th><th>Alcaldía</th>
-            <th class="num">60+</th><th class="num">Brecha</th></tr></thead>
+          <thead><tr><th>Colonia · clave de zona</th><th>Alcaldía</th>
+            <th class="num">60+</th><th class="num">Prioridad</th></tr></thead>
           <tbody id="tabla"></tbody>
         </table>
       </div>
@@ -308,7 +354,30 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--borde);
     </div>
   </div>
 </div>
+</section>
 
+<section class="pest" id="p-reco" role="tabpanel" aria-label="Recomendaciones">
+  <div class="arranque" id="arranque">
+  <button class="cerrar" id="cerrarArranque" aria-label="Cerrar">✕</button>
+  <h3>Cómo usar esto en un minuto</h3>
+  <ol>
+    <li><b>Busca una colonia</b> que conozcas: escribe Roma, Polanco, Iztapalapa…
+      El mapa la ubica, la selecciona y se acerca a ella.</li>
+    <li><b>El mapa está dividido en zonas</b>, las unidades territoriales con las que
+      el INEGI divide la ciudad. Son como colonias pequeñas: 2,431 en la CDMX.</li>
+    <li><b>Cambia qué se mapea</b> con el segundo selector. Arriba del mapa aparece
+      siempre qué significa el color y en qué unidades.</li>
+    <li><b>Cambia la pregunta</b> con el selector «qué pregunta contesta»:
+      <i>necesidad</i> señala dónde la gente no tiene otra opción de atención;
+      <i>comercial</i> señala dónde hay capacidad de pago. No son la misma lista.</li>
+    <li><b>Haz clic en cualquier zona</b> para ver su detalle y la lectura en
+      palabras de qué le está pasando.</li>
+  </ol>
+</div>
+  <div class="reco" id="reco"></div>
+</section>
+
+<section class="pest" id="p-metodo" role="tabpanel" aria-label="Cómo se hizo">
 <details open>
   <summary>Glosario — qué significa cada término</summary>
   <div class="con"><dl class="glos" id="glosario"></dl></div>
@@ -350,6 +419,9 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--borde);
   </div>
 </details>
 
+</section>
+
+<section class="pest" id="p-fuentes" role="tabpanel" aria-label="Fuentes y límites">
 <details>
   <summary>Fuentes y sus diferencias temporales y geográficas</summary>
   <div class="con" id="fuentes"></div>
@@ -359,6 +431,14 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--borde);
   <summary>Límites de este trabajo</summary>
   <div class="con" id="limites"></div>
 </details>
+
+
+<details open>
+  <summary>Supuestos de mercado que asumimos y sabemos que son falsos</summary>
+  <div class="con" id="supuestos"></div>
+</details>
+</section>
+
 
 <footer id="pie"></footer>
 </div>
@@ -393,12 +473,12 @@ var CAPAS={
     uni:"puntos porcentuales (pp) respecto al promedio de la ciudad",
     como:"", anio:false, div:true},
   brecha:{
-    nom:"Brecha proyectada",
-    tit:"Brecha entre demanda y oferta",
-    que:"Cuántas personas de 60 y más hay por cada unidad de servicio que pueden alcanzar caminando.",
-    uni:"personas de 60+ por unidad de servicio accesible",
-    como:"Se divide la demanda proyectada entre la oferta accesible a 800 metros. Entre más alto, más gente mayor por cada farmacia o consultorio alcanzable.",
-    anio:true, div:false, frio:false},
+    nom:"Prioridad proyectada",
+    tit:"Índice de prioridad",
+    que:"Cuántas personas de 60 y más hay por unidad de servicio alcanzable, ponderado por qué tanto dependen de ese servicio.",
+    uni:"índice, no un conteo: brecha × peso del modo activo",
+    como:"Primero se divide la demanda proyectada entre la oferta accesible a 800 metros: ésa es la brecha física, y se lee en personas por unidad. Después se multiplica por el peso del modo, que va de 0.2 a 1.0. El resultado ordena zonas; no se lee como un número de personas.",
+    anio:true, div:false, frio:false, pond:true},
   oferta:{
     nom:"Oferta instalada",
     tit:"Establecimientos dentro de la zona",
@@ -420,20 +500,39 @@ var CAPAS={
     uni:"personas",
     como:"Dato del Censo 2020 para los años observados. Para los proyectados, la demanda estimada según el escenario.",
     anio:true, div:false, frio:false},
-  modo:{
-    nom:"Comercial vs. necesidad",
-    tit:"Oportunidad comercial contra necesidad no atendida",
-    que:"Si la zona destaca más por capacidad de pago o por necesidad demográfica pura.",
-    uni:"índice relativo",
-    como:"Rojo: sale mejor evaluada al ponderar por capacidad de pago, o sea oportunidad comercial. Azul: sale mejor sin ponderar, o sea necesidad que el mercado no va a cubrir solo. Las dos listas NO coinciden, y esa discrepancia es el hallazgo.",
-    anio:true, div:true}
+  dependencia:{
+    nom:"Dependencia de la farmacia",
+    tit:"Quién no tiene otra opción de atención",
+    que:"Qué tanto depende esa zona del consultorio de farmacia por no tener acceso a otro servicio de salud.",
+    uni:"% de población sin derechohabiencia a servicios de salud",
+    como:"Dato del CONEVAL 2020 por zona. Quien no tiene IMSS, ISSSTE ni seguro privado es quien termina en el consultorio de la farmacia, porque la consulta cuesta veinte pesos y la privada cuesta mil. Rojo: mucha población sin cobertura.",
+    anio:false, div:false, frio:false},
+  saturacion:{
+    nom:"Dónde NO abrir",
+    tit:"Sobreoferta y zonas sin mercado",
+    que:"Las dos razones por las que una farmacia fracasa: demasiada competencia, o no hay suficiente gente.",
+    uni:"categoría",
+    como:"Rojo: ya hay demasiadas alternativas alcanzables para la demanda que existe. Azul: la zona no tiene población suficiente para sostener un establecimiento. Gris claro: ninguna de las dos, es una zona normal.",
+    anio:false, div:true}
 };
 CAPAS.recambio.como="Se calcula la proporción de personas de 60 y más en cada zona "+
   "en 2010 y en 2020, se resta, y a esa diferencia se le quita el cambio promedio de "+
   "la CDMX, que fue de "+sig(META.recambio_medio_ciudad,2)+" pp. Rojo: envejeció más "+
   "rápido que la ciudad. Azul: más lento, o sea que rejuveneció en términos relativos.";
 
-var st={cap:"recambio",esc:"tendencial",alc:"",i:OBS.indexOf(BASE),sel:-1,play:null};
+var st={cap:"brecha",modo:META.modo_base||"necesidad",esc:"tendencial",
+        alc:"",i:OBS.indexOf(BASE),sel:-1,play:null,pest:"mapa"};
+
+/* El peso del modo activo, por zona. La brecha cruda mide distancia física al
+   servicio; multiplicada por el peso mide a quién le duele esa distancia. Los
+   dos arreglos vienen del pipeline y aquí solo se multiplica, así que cambiar
+   de pregunta es instantáneo. */
+function pesos(){return st.modo==="comercial"?C.w_com:C.w_nec}
+function pesar(arr){
+  var w=pesos(), o=[], i;
+  for(i=0;i<N;i++)o.push(arr[i]===null?null:arr[i]*w[i]);
+  return o;
+}
 
 function mezcla(a,b,t){return [Math.round(a[0]+(b[0]-a[0])*t),
   Math.round(a[1]+(b[1]-a[1])*t),Math.round(a[2]+(b[2]-a[2])*t)]}
@@ -458,26 +557,64 @@ function esProy(){return anioActual()>BASE}
 function valores(){
   var a=anioActual(), e=st.esc, i;
   if(st.cap==="recambio")return C.recambio;
+  if(st.cap==="dependencia")return C.sin_salud;
+  if(st.cap==="saturacion"){
+    var o=[];
+    for(i=0;i<N;i++)o.push(C.sat[i]?1:(C.sin_merc[i]?-1:0));
+    return o;
+  }
   if(st.cap==="p60")return esProy()?C["d_"+e+"_"+a]:C.p60_2020;
   if(st.cap==="oferta")return esProy()?C["o_"+e+"_"+a]:C["n"+a];
   if(st.cap==="acceso")return esProy()?C["a"+BASE]:C["a"+a];
-  if(st.cap==="modo"){
-    var ap=esProy()?a:PRO[1], com=C["com_"+ap], nec=C["nec_"+ap], o=[];
-    for(i=0;i<N;i++){var c=com[i],n2=nec[i];
-      o.push((c===null||n2===null||!n2)?null:(c/n2)-0.6)}
-    return o;
-  }
   var ab=esProy()?a:PRO[1];
-  return C["b_"+e+"_"+ab]||C.br_2026;
+  /* La brecha se pondera por el modo activo. Es la única capa que cambia con
+     el selector, porque es la única que habla de a quién le falta el servicio. */
+  return pesar(C["b_"+e+"_"+ab]||C.br_2026);
+}
+
+/* Escala de color por RANGOS, no lineal sobre el valor.
+   La brecha tiene cola muy larga: unas pocas zonas enormes aplastaban a las
+   2,400 restantes contra el extremo claro y el mapa se veía casi plano
+   ("sí se ve cómo está aclarándose, súper poquito"). Repartir el color por
+   percentil hace que cada tramo de color tenga el mismo número de zonas, y
+   el mapa vuelve a distinguir. */
+var _rank={};
+function porRango(v, clave){
+  if(_rank[clave])return _rank[clave];
+  var idx=[], i;
+  for(i=0;i<N;i++)idx.push(i);
+  idx.sort(function(x,y){
+    var a=v[x],b=v[y];
+    if(a===null||!isFinite(a))return 1;
+    if(b===null||!isFinite(b))return -1;
+    return a-b;
+  });
+  var r=new Array(N), n=0;
+  for(i=0;i<N;i++){var j=idx[i];
+    r[j]=(v[j]===null||!isFinite(v[j]))?null:n++;}
+  for(i=0;i<N;i++)if(r[i]!==null)r[i]=r[i]/Math.max(n-1,1);
+  _rank[clave]=r; return r;
 }
 function escala(){
   var v=valores(), c=CAPAS[st.cap];
+  if(st.cap==="saturacion"){
+    return {div:true,lim:1,cat:true,f:function(x){
+      return x===1?"#C8322B":x===-1?"#1B5FA8":"#EFEAE0"}};
+  }
   if(c.div){
-    var lim=st.cap==="modo"?0.25:
-      Math.max(Math.abs(cuantil(C.recambio,.03)),cuantil(C.recambio,.97));
+    var lim=Math.max(Math.abs(cuantil(C.recambio,.03)),cuantil(C.recambio,.97));
     return {div:true,lim:lim,f:function(x){return divergente(x,lim)}};
   }
-  var lo=cuantil(v,.02),hi=cuantil(v,.98),col=c.frio?frio:calido;
+  var col=c.frio?frio:calido;
+  if(st.cap==="brecha"){
+    var clave=st.modo+"|"+st.esc+"|"+anioActual();
+    var r=porRango(v,clave), pos={};
+    for(var i=0;i<N;i++)pos[i]=r[i];
+    return {div:false,lo:cuantil(v,.02),hi:cuantil(v,.98),rango:true,
+            f:function(x,i){var t=pos[i];
+              return t===null||t===undefined?"#E8E1D4":col(t,0,1)}};
+  }
+  var lo=cuantil(v,.02),hi=cuantil(v,.98);
   return {div:false,lo:lo,hi:hi,f:function(x){return col(x,lo,hi)}};
 }
 
@@ -613,7 +750,7 @@ function construirMapa(){
 function pintar(){
   var v=valores(), es=escala();
   for(var i=0;i<rutas.length;i++){
-    rutas[i].setAttribute("fill",es.f(v[i]));
+    rutas[i].setAttribute("fill",es.f(v[i],i));
     rutas[i].setAttribute("fill-opacity",(st.alc&&C.mun[i]!==st.alc)?"0.1":"1");
   }
   leyenda(es);
@@ -633,21 +770,37 @@ function leyenda(es){
       t+='<span>envejece '+sig(es.lim,1)+' pp</span></div>';
       t+='<div class="lg-mid">El centro de la escala es el promedio de la ciudad ('+
         sig(META.recambio_medio_ciudad,2)+' pp), no el cero: casi toda la CDMX envejeció.</div>';
-    }else{
-      t+='<span>necesidad no atendida</span><div class="barra" style="background:'+
-        'linear-gradient(90deg,'+divergente(-es.lim,es.lim)+','+
-        divergente(0,es.lim)+','+divergente(es.lim,es.lim)+')"></div>'+
-        '<span>oportunidad comercial</span></div>';
+    }else{   /* saturación: tres categorías, no una rampa */
+      t+='<span style="display:flex;align-items:center;gap:6px">'+
+        '<i style="width:13px;height:13px;border-radius:3px;background:#1B5FA8;'+
+        'display:inline-block"></i>sin mercado suficiente</span>';
+      t+='<span style="display:flex;align-items:center;gap:6px">'+
+        '<i style="width:13px;height:13px;border-radius:3px;background:#EFEAE0;'+
+        'display:inline-block;border:1px solid var(--borde)"></i>zona normal</span>';
+      t+='<span style="display:flex;align-items:center;gap:6px">'+
+        '<i style="width:13px;height:13px;border-radius:3px;background:#C8322B;'+
+        'display:inline-block"></i>sobreoferta: no abrir aquí</span></div>';
     }
   }else{
     var col=c.frio?frio:calido, d=(es.hi<20)?1:0;
-    t+='<span>'+num(es.lo,d)+'</span>';
+    var peor=c.frio?"más oferta cerca":"peor";
+    var mejor=c.frio?"menos oferta cerca":"mejor";
+    t+='<span><b>'+mejor+'</b> · '+num(es.lo,d)+'</span>';
     t+='<div class="barra" style="background:linear-gradient(90deg,'+
-      col(es.lo,es.lo,es.hi)+','+col((es.lo+es.hi)/2,es.lo,es.hi)+','+
-      col(es.hi,es.lo,es.hi)+')"></div>';
-    t+='<span>'+num(es.hi,d)+'</span></div>';
-    t+='<div class="lg-mid">Escala del percentil 2 al 98: los extremos se recortan '+
-       'para que el color no se lo coma un solo valor atípico.</div>';
+      col(0,0,1)+','+col(.25,0,1)+','+col(.5,0,1)+','+col(.75,0,1)+','+
+      col(1,0,1)+')"></div>';
+    t+='<span>'+num(es.hi,d)+' · <b>'+peor+'</b></span></div>';
+    t+='<div class="lg-mid">'+(es.rango
+      ? 'El color se reparte por percentil, no linealmente: cada tramo tiene el '+
+        'mismo número de zonas. Con escala lineal unas pocas zonas extremas '+
+        'aplastaban al resto y el mapa se veía plano.'
+      : 'Escala del percentil 2 al 98: los extremos se recortan para que el '+
+        'color no se lo coma un solo valor atípico.')+'</div>';
+  }
+  if(st.cap==="brecha"){
+    var m=META.modos[st.modo];
+    t+='<div class="lg-mid" style="margin-top:6px"><b>Pregunta activa: '+
+       m.nombre+'.</b> '+m.descripcion+'</div>';
   }
   $("leyenda").innerHTML=t;
 }
@@ -675,9 +828,9 @@ function seleccionar(i,centrar){
 
 var _ord={};
 function ordenBrecha(){
-  var a=esProy()?anioActual():PRO[1], k=st.esc+"_"+a;
+  var a=esProy()?anioActual():PRO[1], k=st.modo+"_"+st.esc+"_"+a;
   if(_ord[k])return _ord[k];
-  var v=C["b_"+st.esc+"_"+a]||C.br_2026, idx=[];
+  var v=pesar(C["b_"+st.esc+"_"+a]||C.br_2026), idx=[];
   for(var i=0;i<N;i++)idx.push(i);
   idx.sort(function(x,y){return (v[y]||0)-(v[x]||0)});
   _ord[k]=idx; return idx;
@@ -687,7 +840,9 @@ function media(arr){var s=0,n=0;for(var i=0;i<N;i++){
 
 function detalle(i){
   var a=anioActual(), ap=esProy()?a:PRO[1];
-  var dem=C["d_"+st.esc+"_"+ap], br=C["b_"+st.esc+"_"+ap], of=C["o_"+st.esc+"_"+ap];
+  var dem=C["d_"+st.esc+"_"+ap], of=C["o_"+st.esc+"_"+ap];
+  var brCruda=C["b_"+st.esc+"_"+ap];      // personas por unidad: es un cociente
+  var br=pesar(brCruda);                   // ponderada: es un indice, no un conteo
   var rec=C.recambio[i], pos=ordenBrecha().indexOf(i);
   var pct=100*(1-pos/N), cat, col;
   if(pct>=90){cat="prioritaria";col="var(--rojo);color:#fff"}
@@ -698,7 +853,7 @@ function detalle(i){
   var mAcc=media(C["a"+BASE]), mP60=media(C.p60_2020), h="";
   h+='<div class="dt-nom">'+(META.alcaldias_nombre[C.mun[i]]||"")+'</div>';
   if(C.col[i])h+='<div class="dt-col">'+C.col[i]+'</div>';
-  h+='<div class="dt-sub">AGEB '+C.cve[i]+' · lugar '+(pos+1)+' de '+N+
+  h+='<div class="dt-sub">Zona '+C.cve[i]+' · lugar '+(pos+1)+' de '+N+
      ' por brecha</div>';
   h+='<span class="etiqueta" style="background:'+col+'">Prioridad '+cat+'</span>';
   h+='<div style="margin-top:11px">';
@@ -716,9 +871,20 @@ function detalle(i){
   h+=fila("Rezago social (CONEVAL)",C.grs_txt[i]||"—");
   h+='</div><div style="margin-top:11px;padding-top:9px;border-top:2px solid var(--crema3)">';
   h+=fila("Demanda proyectada "+ap,num(dem?dem[i]:null),"personas de 60 y más");
-  h+=fila("Oferta proyectada "+ap,num(of?of[i]:null,1),"establecimientos");
-  h+=fila("Brecha "+ap,num(br?br[i]:null,1),
-          "personas de 60+ por unidad de servicio accesible");
+  h+=fila("Oferta proyectada "+ap,num(of?of[i]:null,1),
+          "establecimientos dentro de la zona");
+  /* La brecha divide entre la oferta ALCANZABLE, no entre el conteo de adentro.
+     Sin este renglón la división que ve el usuario no cerraba. */
+  var accP=(of&&of[i]!==null)?of[i]*(META.razon_acc||1):null;
+  h+=fila("Oferta alcanzable "+ap,num(accP,1),
+          "equivalente a 800 m, incluye la de zonas vecinas");
+  h+=fila("Brecha física "+ap,num(brCruda?brCruda[i]:null,1),
+          "personas de 60+ ÷ (oferta alcanzable + 1)");
+  h+=fila("Dependencia de la zona",num(C.sin_salud[i],1)+"%",
+          "sin derechohabiencia a servicios de salud (CONEVAL 2020)");
+  h+=fila("Índice de prioridad · "+META.modos[st.modo].nombre,
+          num(br?br[i]:null,1),
+          "brecha × peso del modo. Es un índice para ordenar, no un conteo");
   h+='</div>';
 
   var txt="";
@@ -761,7 +927,7 @@ function resumen(){
     : caja(sig(META.recambio_medio_ciudad,2)+" pp","envejeció la ciudad 2010→2020");
 
   $("cifras").innerHTML=
-    caja(num(sel.length),"zonas AGEB")+
+    caja(num(sel.length),"zonas")+
     caja(num(p60),"personas 60+ (2020)")+
     caja(num(ofe),"establecimientos "+an)+
     caja(num(demT),"demanda "+ap)+
@@ -775,12 +941,16 @@ function caja(v,e){return '<div class="cifra"><div class="v">'+v+
 
 function tabla(){
   var ord=ordenBrecha(), a=esProy()?anioActual():PRO[1];
-  var br=C["b_"+st.esc+"_"+a]||C.br_2026, h="",n=0;
+  var br=pesar(C["b_"+st.esc+"_"+a]||C.br_2026), h="",n=0;
   for(var k=0;k<ord.length&&n<12;k++){
     var i=ord[k];
     if(st.alc&&C.mun[i]!==st.alc)continue;
-    var col=C.col[i]?C.col[i].split(" · ")[0]:C.cve[i].slice(-7);
-    h+='<tr data-i="'+i+'"><td>'+col+'</td><td>'+
+    /* Una colonia grande abarca varias zonas, asi que el nombre solo no basta
+       para distinguir renglones: se acompania de los ultimos 4 digitos de la
+       clave, que es como se identifica cada zona en el mapa y en el buscador. */
+    var col=C.col[i]?C.col[i].split(" · ")[0]:("Zona "+C.cve[i].slice(-4));
+    h+='<tr data-i="'+i+'"><td>'+col+
+      '<small class="cve">'+C.cve[i].slice(-4)+'</small></td><td>'+
       (META.alcaldias_nombre[C.mun[i]]||"")+'</td><td class="num">'+
       num(C.p60_2020[i])+'</td><td class="num">'+num(br[i],1)+'</td></tr>';
     n++;
@@ -821,7 +991,7 @@ function construirIndice(){
         if(!vistos[k]){vistos[k]=1;INDICE.push({t:c,s:alc,i:i,b:norm(c)})}
       });
     }
-    INDICE.push({t:"AGEB "+C.cve[i],s:alc,i:i,b:C.cve[i]});
+    INDICE.push({t:"Zona "+C.cve[i],s:alc,i:i,b:C.cve[i]});
   }
   META.alcaldias.forEach(function(r){
     INDICE.push({t:r.alcaldia,s:"alcaldía completa",m:r.CVE_MUN,b:norm(r.alcaldia)})});
@@ -880,6 +1050,21 @@ function limpiar(){
   alejar(); todo();
 }
 
+/* Cambia de pestania desde cualquier parte. La usan los botones de arriba y
+   tambien el clic en una zona recomendada, que antes seleccionaba y hacia zoom
+   sobre un mapa con display:none, o sea sin ningun efecto visible. */
+function irAPestania(p){
+  st.pest=p;
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(x){
+    var on=x.dataset.p===p;
+    x.classList.toggle("act",on);
+    x.setAttribute("aria-selected",on?"true":"false");
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".pest"),function(x){
+    x.classList.toggle("act",x.id==="p-"+p)});
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
 /* ---------- las tres recomendaciones ----------
    No son texto escrito a mano: el pipeline las calcula con un criterio
    distinto por horizonte y las deja en META.recomendaciones. Cada zona
@@ -919,7 +1104,8 @@ function recomendaciones(){
   Array.prototype.forEach.call($("reco").querySelectorAll(".zi"),function(d){
     d.onclick=function(){
       var i=porClave(d.dataset.cve); if(i<0)return;
-      $("alc").value=C.mun[i]; st.alc=C.mun[i]; todo();
+      $("alc").value=C.mun[i]; st.alc=C.mun[i];
+      irAPestania("mapa"); todo();
       seleccionar(i,true); acercarAgeb(i);
     }});
 }
@@ -1100,8 +1286,30 @@ function informacion(){
     Object.keys(META.scian_oferta).join(", ")+".";
 }
 
+/* ---------- supuestos de mercado ----------
+   Los tres son falsos y se asumen a proposito. Van visibles porque un modelo
+   que no declara sus supuestos no se puede criticar, y uno que no se puede
+   criticar no sirve para decidir. */
+function supuestos(){
+  var L=META.supuestos_mercado||[];
+  if(!L.length){$("supuestos").innerHTML="";return}
+  var h='<p>Estos tres supuestos son falsos en la realidad y los asumimos igual '+
+        'para esta primera versión. Decirlo no es una debilidad del trabajo: es '+
+        'la condición para que alguien pueda discutirlo.</p>';
+  h+=L.map(function(x){
+    return '<div class="sup"><b>'+x.supuesto+'</b><br>'+
+      '<span class="q">Por qué es falso: '+x.por_que_es_falso+'</span><br>'+
+      '<span class="h">Qué haríamos con más tiempo: '+x.que_hariamos+'</span></div>';
+  }).join("");
+  h+='<p class="nota">Los límites de arriba son de <b>datos y método</b>. '+
+     'Éstos son de <b>comportamiento del consumidor</b>, que es distinto: no se '+
+     'arreglan con mejores datos del INEGI, se arreglan con datos de mercado que '+
+     'hoy no son públicos.</p>';
+  $("supuestos").innerHTML=h;
+}
+
 /* ---------- controles ---------- */
-function ayuda(){
+function ayuda(){ if(!$("ayuda"))return;
   var c=CAPAS[st.cap];
   var t="<b>Estás viendo:</b> "+c.que+" <b>Se mide en</b> "+c.uni+". "+c.como;
   if(!c.anio)t+=" <b>Esta capa no cambia con el año</b>, por eso el control está "+
@@ -1109,6 +1317,20 @@ function ayuda(){
     "datos a este nivel de detalle.";
   $("ayuda").innerHTML=t;
 }
+/* El selector de modo solo afecta a la capa de prioridad, y el de escenario
+   solo a las capas proyectadas. Dejarlos activos donde no hacen nada invita a
+   moverlos y concluir que la aplicacion no responde. */
+function estadoControles(){
+  var c=CAPAS[st.cap];
+  var usaModo=!!c.pond, usaEsc=!!c.anio;
+  [["modo",usaModo],["esc",usaEsc]].forEach(function(p){
+    var el=$(p[0]); if(!el)return;
+    el.disabled=!p[1];
+    el.style.opacity=p[1]?"1":".35";
+    el.title=p[1]?"":"Esta capa no cambia con este control.";
+  });
+}
+
 function estadoAnio(){
   var varia=CAPAS[st.cap].anio;
   $("anio").disabled=!varia; $("play").disabled=!varia;
@@ -1145,12 +1367,50 @@ function iniciarControles(){
   s.max=ANIOS.length-1; s.value=st.i;
   $("mIni").textContent=ANIOS[0]; $("mFin").textContent=ANIOS[ANIOS.length-1];
 
-  cs.onchange=function(){st.cap=this.value;$("tip").style.display="none";todo()};
-  e.onchange=function(){st.esc=this.value;_ord={};todo()};
+  cs.onchange=function(){st.cap=this.value;$("tip").style.display="none";
+    _rank={};todo()};
+  e.onchange=function(){st.esc=this.value;_ord={};_rank={};todo()};
   a.onchange=function(){st.alc=this.value;todo();
     if(this.value)acercarAlcaldia(this.value); else alejar()};
-  s.oninput=function(){st.i=+this.value;todo()};
+  s.oninput=function(){st.i=+this.value;_rank={};todo()};
   $("play").onclick=animar;
+  /* selector de modo: la pregunta que contesta el mapa */
+  var mo=$("modo");
+  Object.keys(META.modos).forEach(function(k){
+    var o=document.createElement("option");
+    o.value=k;o.textContent=META.modos[k].nombre;mo.appendChild(o)});
+  mo.value=st.modo;
+  mo.onchange=function(){st.modo=this.value;_ord={};_rank={};todo()};
+
+  /* pestañas */
+  Array.prototype.forEach.call(document.querySelectorAll(".tab"),function(b){
+    b.onclick=function(){irAPestania(b.dataset.p)}});
+
+  /* zoom propio del mapa. Antes solo se podía hacer zoom al HTML entero,
+     que agranda el texto y no sirve para leer el mapa. */
+  function escalar(k){
+    var v=VB||{x:0,y:0,w:W,h:H};
+    var w=Math.min(W,Math.max(W*0.04,v.w*k)), h=w*H/W;
+    var cx=v.x+v.w/2, cy=v.y+v.h/2;
+    animarVB({x:Math.max(0,Math.min(cx-w/2,W-w)),
+              y:Math.max(0,Math.min(cy-h/2,H-h)),w:w,h:h},200);
+  }
+  $("zmas").onclick=function(){escalar(0.65)};
+  $("zmenos").onclick=function(){escalar(1/0.65)};
+  $("zreset").onclick=alejar;
+  svg.addEventListener("wheel",function(ev){
+    ev.preventDefault();
+    var v=VB||{x:0,y:0,w:W,h:H}, k=ev.deltaY>0?1/0.88:0.88;
+    var w=Math.min(W,Math.max(W*0.04,v.w*k)), h=w*H/W;
+    /* acercar hacia el cursor, no hacia el centro */
+    var r=svg.getBoundingClientRect();
+    var px=v.x+((ev.clientX-r.left)/r.width)*v.w;
+    var py=v.y+((ev.clientY-r.top)/r.height)*v.h;
+    var nx=px-((px-v.x)/v.w)*w, ny=py-((py-v.y)/v.h)*h;
+    aplicarVB({x:Math.max(0,Math.min(nx,W-w)),
+               y:Math.max(0,Math.min(ny,H-h)),w:w,h:h});
+  },{passive:false});
+
   $("limpiar").onclick=limpiar;
   $("cerrarArranque").onclick=function(){$("arranque").style.display="none"};
 
@@ -1182,7 +1442,7 @@ function animar(){
     st.i++; s.value=st.i; todo()},760);
 }
 
-function todo(){estadoAnio();ayuda();pintar();resumen();tabla();
+function todo(){estadoAnio();estadoControles();ayuda();pintar();resumen();tabla();
   if(st.sel>=0)detalle(st.sel)}
 
 construirMapa();
@@ -1190,6 +1450,7 @@ construirIndice();
 iniciarControles();
 tablaAlcaldias();
 recomendaciones();
+supuestos();
 glosario();
 informacion();
 todo();

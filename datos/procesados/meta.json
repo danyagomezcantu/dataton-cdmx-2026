@@ -37,14 +37,50 @@
       "descripcion": "La ciudad sigue la trayectoria observada entre censos."
     },
     "digitalizacion": {
-      "nombre": "Digitalizacion",
-      "descripcion": "Parte de la demanda de 60+ migra a teleconsulta y compra en linea. Responde a la critica de que el adulto mayor de 2031 tiene cultura digital."
+      "nombre": "Digitalización",
+      "descripcion": "Parte de la demanda de 60+ migra a teleconsulta y compra en línea. Responde a la crítica de que el adulto mayor de 2031 tiene cultura digital."
     },
     "recambio": {
       "nombre": "Envejecimiento acelerado",
-      "descripcion": "El desplazamiento barrial observado entre 2010 y 2020 se acelera al doble. Responde a la hipotesis de barrios que envejecen y barrios que rejuvenecen."
+      "descripcion": "El desplazamiento barrial observado entre 2010 y 2020 se acelera al doble. Responde a la hipótesis de barrios que envejecen y barrios que rejuvenecen."
     }
   },
+  "modos": {
+    "necesidad": {
+      "nombre": "Necesidad",
+      "descripcion": "Pondera por dependencia: quien no tiene otra opción de atención. Es el modo por omisión.",
+      "peso": "dependencia"
+    },
+    "comercial": {
+      "nombre": "Comercial",
+      "descripcion": "Pondera por capacidad de pago: dónde hay clientes que gastan. Es la pregunta de negocio pura.",
+      "peso": "gasto"
+    }
+  },
+  "modo_base": "necesidad",
+  "segmento": {
+    "nombre": "Población dependiente de atención primaria de bajo costo",
+    "edad": "60 y más (censo INEGI por AGEB)",
+    "socioeconomico": "Población sin derechohabiencia a servicios de salud, % por AGEB (CONEVAL 2020). Se prefiere al Grado de Rezago Social porque ése es ordinal, está calibrado a escala nacional y deja 90% de la CDMX en dos niveles."
+  },
+  "supuestos_mercado": [
+    {
+      "supuesto": "Mercado simplificado y distancias uniformes",
+      "por_que_es_falso": "El precio, las promociones y el surtido varían entre cadenas.",
+      "que_hariamos": "Incorporar precio relativo por cadena."
+    },
+    {
+      "supuesto": "Cliente perfecto: cada quien va a la farmacia más cercana",
+      "por_que_es_falso": "La gente va a la de su programa de lealtad, o a la que más se anuncia.",
+      "que_hariamos": "Ponderar por participación de mercado de cada cadena."
+    },
+    {
+      "supuesto": "Más oferta implica más atención",
+      "por_que_es_falso": "Dos farmacias a la misma distancia no atienden igual: depende de estrategia comercial.",
+      "que_hariamos": "Datos de tráfico o de consumo, que hoy no son públicos."
+    }
+  ],
+  "min_p60_reco": 200,
   "scian_oferta": {
     "464111": "Farmacias sin minisuper",
     "464112": "Farmacias con minisuper",
@@ -64,21 +100,22 @@
     "464122": "Articulos ortopedicos"
   },
   "ancho_banda_m": 800.0,
+  "razon_acc": 14.341,
   "alcaldias_nombre": {
     "09002": "Azcapotzalco",
-    "09003": "Coyoacan",
+    "09003": "Coyoacán",
     "09004": "Cuajimalpa",
     "09005": "Gustavo A. Madero",
     "09006": "Iztacalco",
     "09007": "Iztapalapa",
     "09008": "Magdalena Contreras",
     "09009": "Milpa Alta",
-    "09010": "Alvaro Obregon",
-    "09011": "Tlahuac",
+    "09010": "Álvaro Obregón",
+    "09011": "Tláhuac",
     "09012": "Tlalpan",
     "09013": "Xochimilco",
-    "09014": "Benito Juarez",
-    "09015": "Cuauhtemoc",
+    "09014": "Benito Juárez",
+    "09015": "Cuauhtémoc",
     "09016": "Miguel Hidalgo",
     "09017": "Venustiano Carranza"
   },
@@ -89,7 +126,8 @@
       "p60": 78649.0,
       "oferta": 405,
       "recambio": -0.14,
-      "brecha": 6.81,
+      "brecha": 2.39,
+      "dependencia": 0.37,
       "agebs": 103,
       "alcaldia": "Azcapotzalco",
       "por_10k_60": 51.5
@@ -100,9 +138,10 @@
       "p60": 126592.0,
       "oferta": 605,
       "recambio": 2.0,
-      "brecha": 7.94,
+      "brecha": 3.58,
+      "dependencia": 0.5,
       "agebs": 156,
-      "alcaldia": "Coyoacan",
+      "alcaldia": "Coyoacán",
       "por_10k_60": 47.8
     },
     {
@@ -111,7 +150,8 @@
       "p60": 25458.0,
       "oferta": 190,
       "recambio": -0.68,
-      "brecha": 4.18,
+      "brecha": 1.92,
+      "dependencia": 0.51,
       "agebs": 31,
       "alcaldia": "Cuajimalpa",
       "por_10k_60": 74.6
@@ -122,7 +162,8 @@
       "p60": 203469.0,
       "oferta": 1300,
       "recambio": -0.1,
-      "brecha": 6.26,
+      "brecha": 3.32,
+      "dependencia": 0.53,
       "agebs": 305,
       "alcaldia": "Gustavo A. Madero",
       "por_10k_60": 63.9
@@ -133,7 +174,8 @@
       "p60": 70906.0,
       "oferta": 464,
       "recambio": -0.08,
-      "brecha": 6.38,
+      "brecha": 3.44,
+      "dependencia": 0.59,
       "agebs": 110,
       "alcaldia": "Iztacalco",
       "por_10k_60": 65.4
@@ -144,7 +186,8 @@
       "p60": 262062.0,
       "oferta": 2315,
       "recambio": 0.27,
-      "brecha": 4.86,
+      "brecha": 3.68,
+      "dependencia": 0.75,
       "agebs": 458,
       "alcaldia": "Iztapalapa",
       "por_10k_60": 88.3
@@ -155,7 +198,8 @@
       "p60": 37979.0,
       "oferta": 217,
       "recambio": 0.31,
-      "brecha": 7.55,
+      "brecha": 4.35,
+      "dependencia": 0.54,
       "agebs": 52,
       "alcaldia": "Magdalena Contreras",
       "por_10k_60": 57.1
@@ -166,7 +210,8 @@
       "p60": 14747.0,
       "oferta": 202,
       "recambio": -1.46,
-      "brecha": 3.39,
+      "brecha": 2.31,
+      "dependencia": 0.66,
       "agebs": 42,
       "alcaldia": "Milpa Alta",
       "por_10k_60": 137.0
@@ -177,9 +222,10 @@
       "p60": 122310.0,
       "oferta": 654,
       "recambio": 0.22,
-      "brecha": 10.82,
+      "brecha": 5.15,
+      "dependencia": 0.47,
       "agebs": 199,
-      "alcaldia": "Alvaro Obregon",
+      "alcaldia": "Álvaro Obregón",
       "por_10k_60": 53.5
     },
     {
@@ -188,9 +234,10 @@
       "p60": 45684.0,
       "oferta": 530,
       "recambio": -0.66,
-      "brecha": 3.76,
+      "brecha": 2.26,
+      "dependencia": 0.57,
       "agebs": 110,
-      "alcaldia": "Tlahuac",
+      "alcaldia": "Tláhuac",
       "por_10k_60": 116.0
     },
     {
@@ -199,7 +246,8 @@
       "p60": 107553.0,
       "oferta": 727,
       "recambio": 0.75,
-      "brecha": 6.89,
+      "brecha": 4.17,
+      "dependencia": 0.61,
       "agebs": 207,
       "alcaldia": "Tlalpan",
       "por_10k_60": 67.6
@@ -210,7 +258,8 @@
       "p60": 60006.0,
       "oferta": 482,
       "recambio": -0.15,
-      "brecha": 7.12,
+      "brecha": 5.39,
+      "dependencia": 0.72,
       "agebs": 122,
       "alcaldia": "Xochimilco",
       "por_10k_60": 80.3
@@ -221,9 +270,10 @@
       "p60": 87344.0,
       "oferta": 616,
       "recambio": -0.48,
-      "brecha": 6.12,
+      "brecha": 2.16,
+      "dependencia": 0.34,
       "agebs": 102,
-      "alcaldia": "Benito Juarez",
+      "alcaldia": "Benito Juárez",
       "por_10k_60": 70.5
     },
     {
@@ -232,9 +282,10 @@
       "p60": 93807.0,
       "oferta": 941,
       "recambio": -1.05,
-      "brecha": 5.2,
+      "brecha": 2.68,
+      "dependencia": 0.56,
       "agebs": 153,
-      "alcaldia": "Cuauhtemoc",
+      "alcaldia": "Cuauhtémoc",
       "por_10k_60": 100.3
     },
     {
@@ -243,7 +294,8 @@
       "p60": 71107.0,
       "oferta": 438,
       "recambio": -1.79,
-      "brecha": 5.78,
+      "brecha": 1.89,
+      "dependencia": 0.36,
       "agebs": 130,
       "alcaldia": "Miguel Hidalgo",
       "por_10k_60": 61.6
@@ -254,7 +306,8 @@
       "p60": 78964.0,
       "oferta": 482,
       "recambio": 0.0,
-      "brecha": 7.5,
+      "brecha": 4.57,
+      "dependencia": 0.62,
       "agebs": 151,
       "alcaldia": "Venustiano Carranza",
       "por_10k_60": 61.0
@@ -325,29 +378,33 @@
       "confianza": "alta",
       "titulo": "Abrir donde la brecha ya es peor",
       "criterio": "Zonas con mayor brecha proyectada a 2027. A un año la recomendación casi no depende del modelo: la demanda ya está instalada y la oferta apenas se mueve entre cortes.",
-      "dato": "La demanda de la ciudad pasa de 1,486,637 personas de 60 y más en 2020 a 1,870,304 en 2027. Las zonas del percentil 90 superan una brecha de 95 personas por unidad de servicio accesible.",
+      "dato": "La demanda de la ciudad pasa de 1,486,637 personas de 60 y más en 2020 a 1,870,304 en 2027. Las zonas del percentil 90 superan una brecha de 44 personas por unidad de servicio accesible.",
       "accion": "Decisión de apertura inmediata.",
       "nota": "Universo: 2,138 de 2,431 AGEB. Se excluyen 293 con menos de 200 personas de 60 y más, que son 1.8% de la demanda de la ciudad: ahí el cociente se dispara por denominador chico, no porque haya una decisión que tomar.",
       "zonas": [
         {
-          "cve": "0901600010853",
-          "colonia": "AGEB 0853",
-          "alcaldia": "Miguel Hidalgo",
-          "p60": 766,
+          "cve": "0900700015747",
+          "colonia": "SANTA MARTHA ACATITLA NORTE",
+          "alcaldia": "Iztapalapa",
+          "p60": 292,
           "oferta": 0,
-          "acc": 8.1,
-          "envejecimiento": 4.01,
-          "brecha": 274.04
+          "acc": 40.8,
+          "envejecimiento": 4.2,
+          "rezago": "Bajo",
+          "dependencia": 0.72,
+          "brecha": 164.11
         },
         {
-          "cve": "0901500010362",
-          "colonia": "NONOALCO TLATELOLCO",
-          "alcaldia": "Cuauhtemoc",
-          "p60": 765,
-          "oferta": 2,
-          "acc": 62.9,
-          "envejecimiento": 4.11,
-          "brecha": 269.62
+          "cve": "0900700014683",
+          "colonia": "EJÉRCITO DE AGUA PRIETA",
+          "alcaldia": "Iztapalapa",
+          "p60": 317,
+          "oferta": 0,
+          "acc": 64.2,
+          "envejecimiento": 1.08,
+          "rezago": "Bajo",
+          "dependencia": 1.0,
+          "brecha": 160.81
         },
         {
           "cve": "0900700014804",
@@ -357,7 +414,9 @@
           "oferta": 0,
           "acc": 55.8,
           "envejecimiento": 4.54,
-          "brecha": 245.07
+          "rezago": "Bajo",
+          "dependencia": 0.57,
+          "brecha": 139.91
         }
       ]
     },
@@ -372,40 +431,46 @@
       "nota": "Universo: 2,138 de 2,431 AGEB. Se excluyen 293 con menos de 200 personas de 60 y más, que son 1.8% de la demanda de la ciudad: ahí el cociente se dispara por denominador chico, no porque haya una decisión que tomar.",
       "zonas": [
         {
-          "cve": "0900700015925",
-          "colonia": "SAN NICOLÁS TOLENTINO",
-          "alcaldia": "Iztapalapa",
-          "p60": 380,
+          "cve": "090120001216A",
+          "colonia": "MAGISTERIAL",
+          "alcaldia": "Tlalpan",
+          "p60": 572,
           "oferta": 1,
-          "acc": 60.8,
-          "envejecimiento": 0.76,
-          "brecha": 39.01,
-          "salto_posiciones": 20.0,
-          "personas_sumadas": 83.79
+          "acc": 40.8,
+          "envejecimiento": 1.37,
+          "rezago": "Muy bajo",
+          "dependencia": 0.41,
+          "brecha": 17.78,
+          "salto_posiciones": 12.0,
+          "personas_sumadas": 57.21
         },
         {
-          "cve": "0900700011975",
-          "colonia": "CERRO DE LA ESTRELLA",
+          "cve": "0900700015395",
+          "colonia": "LA POLVORILLA",
           "alcaldia": "Iztapalapa",
-          "p60": 396,
-          "oferta": 0,
-          "acc": 83.1,
-          "envejecimiento": -0.66,
-          "brecha": 38.67,
-          "salto_posiciones": 9.0,
-          "personas_sumadas": 58.98
+          "p60": 236,
+          "oferta": 1,
+          "acc": 97.9,
+          "envejecimiento": -1.69,
+          "rezago": "Bajo",
+          "dependencia": 0.88,
+          "brecha": 18.05,
+          "salto_posiciones": 15.0,
+          "personas_sumadas": 42.6
         },
         {
-          "cve": "090130001146A",
-          "colonia": "AMPLIACION GUADALUPE",
-          "alcaldia": "Xochimilco",
-          "p60": 227,
+          "cve": "0900500011650",
+          "colonia": "DM NACIONAL",
+          "alcaldia": "Gustavo A. Madero",
+          "p60": 698,
           "oferta": 0,
-          "acc": 4.4,
-          "envejecimiento": -2.42,
-          "brecha": 39.0,
-          "salto_posiciones": 38.0,
-          "personas_sumadas": 53.66
+          "acc": 56.2,
+          "envejecimiento": 0.8,
+          "rezago": "Muy bajo",
+          "dependencia": 0.2,
+          "brecha": 17.52,
+          "salto_posiciones": 26.0,
+          "personas_sumadas": 34.31
         }
       ]
     },
@@ -427,27 +492,33 @@
           "oferta": 3,
           "acc": 19.3,
           "envejecimiento": 13.41,
-          "riesgo": 6.19
+          "rezago": "Muy bajo",
+          "dependencia": 0.33,
+          "riesgo": 5.03
         },
         {
-          "cve": "0901200012070",
-          "colonia": "AMPLIACIÓN FUENTES DEL PEDREGAL",
+          "cve": "0901200010407",
+          "colonia": "TORIELLO GUERRA",
           "alcaldia": "Tlalpan",
-          "p60": 471,
-          "oferta": 1,
-          "acc": 28.9,
-          "envejecimiento": 8.81,
-          "riesgo": 4.23
+          "p60": 298,
+          "oferta": 0,
+          "acc": 75.1,
+          "envejecimiento": 8.6,
+          "rezago": "Muy bajo",
+          "dependencia": 0.9,
+          "riesgo": 4.36
         },
         {
-          "cve": "0901600011298",
-          "colonia": "AGEB 1298",
-          "alcaldia": "Miguel Hidalgo",
-          "p60": 434,
-          "oferta": 0,
-          "acc": 5.3,
-          "envejecimiento": 6.58,
-          "riesgo": 4.15
+          "cve": "0901300010917",
+          "colonia": "AMPLIACIÓN TEPEPAN",
+          "alcaldia": "Xochimilco",
+          "p60": 411,
+          "oferta": 2,
+          "acc": 22.7,
+          "envejecimiento": 4.76,
+          "rezago": "Bajo",
+          "dependencia": 0.84,
+          "riesgo": 4.25
         }
       ]
     }
@@ -569,15 +640,18 @@
     "sensibilidad_ancho_banda": {
       "500": {
         "desiertos": 0,
-        "correlacion_con_800m": 0.9351
+        "spearman_con_800m": 0.9426,
+        "pearson_con_800m": 0.9351
       },
       "800": {
         "desiertos": 0,
-        "correlacion_con_800m": 1.0
+        "spearman_con_800m": 1.0,
+        "pearson_con_800m": 1.0
       },
       "1200": {
         "desiertos": 0,
-        "correlacion_con_800m": 0.9681
+        "spearman_con_800m": 0.9673,
+        "pearson_con_800m": 0.9681
       }
     },
     "validacion_ageb_declarada": {
@@ -716,7 +790,161 @@
       }
     ],
     "coneval": {
-      "n_agebs": 2410
+      "n_agebs": 2410,
+      "grado_rezago_distribucion": {
+        "Bajo": 1234,
+        "Muy bajo": 948,
+        "Medio": 200,
+        "Alto": 22,
+        "Muy alto": 6
+      },
+      "sin_derechohabiencia_pct": {
+        "p05": 16.2,
+        "mediana": 26.3,
+        "p95": 38.5,
+        "n": 2400
+      },
+      "nota": "El Grado de Rezago Social es ordinal y esta calibrado a escala nacional: deja 948 AGEB de la CDMX en 'Muy bajo' y 1,234 en 'Bajo', o sea 90% de la ciudad en dos niveles. Por eso el peso de dependencia usa el porcentaje sin derechohabiencia, que es continuo y mide el mecanismo directamente."
+    },
+    "modos": {
+      "modo_base": "necesidad",
+      "segmento": {
+        "nombre": "Población dependiente de atención primaria de bajo costo",
+        "edad": "60 y más (censo INEGI por AGEB)",
+        "socioeconomico": "Población sin derechohabiencia a servicios de salud, % por AGEB (CONEVAL 2020). Se prefiere al Grado de Rezago Social porque ése es ordinal, está calibrado a escala nacional y deja 90% de la CDMX en dos niveles."
+      },
+      "zonas_que_cambian_en_el_top_50": 76,
+      "nota": "La brecha cruda mide distancia fisica. Ponderada por dependencia mide a quien le duele esa distancia. Cambiar de modo mueve el top-50 en 76 zonas: no es un matiz, es otra pregunta."
+    },
+    "saturacion": {
+      "zonas_saturadas": 295,
+      "zonas_sin_mercado": 120,
+      "umbral_percentil": 0.15,
+      "umbral_poblacion": 500,
+      "lectura": "Dos modos de fracaso distintos: sobreoferta (hay gente pero ya hay demasiadas alternativas) y ausencia de mercado (no hay suficiente gente). En los dos la recomendacion es no abrir, por razones opuestas."
+    },
+    "colonias": {
+      "por_establecimiento_dentro": 2519,
+      "completadas_por_vecindad": 102,
+      "agebs_con_nombre": 2621,
+      "nota": "Una AGEB estrictamente residencial no tiene negocios adentro, asi que no hay de donde leer su nombre. Esas se completan con las colonias colindantes y se marcan con '~'."
+    },
+    "validacion_espacial": {
+      "spearman_promedio": 0.919,
+      "por_alcaldia": [
+        {
+          "cve_mun": "09002",
+          "alcaldia": "Azcapotzalco",
+          "n": 824,
+          "spearman": 0.907,
+          "mae": 2.0
+        },
+        {
+          "cve_mun": "09003",
+          "alcaldia": "Coyoacán",
+          "n": 1248,
+          "spearman": 0.919,
+          "mae": 3.716
+        },
+        {
+          "cve_mun": "09004",
+          "alcaldia": "Cuajimalpa",
+          "n": 248,
+          "spearman": 0.91,
+          "mae": 9.206
+        },
+        {
+          "cve_mun": "09005",
+          "alcaldia": "Gustavo A. Madero",
+          "n": 2440,
+          "spearman": 0.937,
+          "mae": 2.564
+        },
+        {
+          "cve_mun": "09006",
+          "alcaldia": "Iztacalco",
+          "n": 880,
+          "spearman": 0.92,
+          "mae": 2.004
+        },
+        {
+          "cve_mun": "09007",
+          "alcaldia": "Iztapalapa",
+          "n": 3664,
+          "spearman": 0.932,
+          "mae": 3.151
+        },
+        {
+          "cve_mun": "09008",
+          "alcaldia": "Magdalena Contreras",
+          "n": 416,
+          "spearman": 0.901,
+          "mae": 2.356
+        },
+        {
+          "cve_mun": "09009",
+          "alcaldia": "Milpa Alta",
+          "n": 336,
+          "spearman": 0.946,
+          "mae": 5.489
+        },
+        {
+          "cve_mun": "09010",
+          "alcaldia": "Álvaro Obregón",
+          "n": 1592,
+          "spearman": 0.902,
+          "mae": 1.989
+        },
+        {
+          "cve_mun": "09011",
+          "alcaldia": "Tláhuac",
+          "n": 880,
+          "spearman": 0.943,
+          "mae": 2.664
+        },
+        {
+          "cve_mun": "09012",
+          "alcaldia": "Tlalpan",
+          "n": 1656,
+          "spearman": 0.926,
+          "mae": 3.47
+        },
+        {
+          "cve_mun": "09013",
+          "alcaldia": "Xochimilco",
+          "n": 976,
+          "spearman": 0.935,
+          "mae": 4.2
+        },
+        {
+          "cve_mun": "09014",
+          "alcaldia": "Benito Juárez",
+          "n": 816,
+          "spearman": 0.896,
+          "mae": 3.709
+        },
+        {
+          "cve_mun": "09015",
+          "alcaldia": "Cuauhtémoc",
+          "n": 1224,
+          "spearman": 0.932,
+          "mae": 9.01
+        },
+        {
+          "cve_mun": "09016",
+          "alcaldia": "Miguel Hidalgo",
+          "n": 1040,
+          "spearman": 0.894,
+          "mae": 2.507
+        },
+        {
+          "cve_mun": "09017",
+          "alcaldia": "Venustiano Carranza",
+          "n": 1208,
+          "spearman": 0.9,
+          "mae": 1.39
+        }
+      ]
     }
   },
   "validacion_espacial": {
@@ -731,7 +959,7 @@
       },
       {
         "cve_mun": "09003",
-        "alcaldia": "Coyoacan",
+        "alcaldia": "Coyoacán",
         "n": 1248,
         "spearman": 0.919,
         "mae": 3.716
@@ -780,14 +1008,14 @@
       },
       {
         "cve_mun": "09010",
-        "alcaldia": "Alvaro Obregon",
+        "alcaldia": "Álvaro Obregón",
         "n": 1592,
         "spearman": 0.902,
         "mae": 1.989
       },
       {
         "cve_mun": "09011",
-        "alcaldia": "Tlahuac",
+        "alcaldia": "Tláhuac",
         "n": 880,
         "spearman": 0.943,
         "mae": 2.664
@@ -808,14 +1036,14 @@
       },
       {
         "cve_mun": "09014",
-        "alcaldia": "Benito Juarez",
+        "alcaldia": "Benito Juárez",
         "n": 816,
         "spearman": 0.896,
         "mae": 3.709
       },
       {
         "cve_mun": "09015",
-        "alcaldia": "Cuauhtemoc",
+        "alcaldia": "Cuauhtémoc",
         "n": 1224,
         "spearman": 0.932,
         "mae": 9.01

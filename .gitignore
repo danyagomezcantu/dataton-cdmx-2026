@@ -1,18 +1,5 @@
-# Datos crudos: ~600 MB, se bajan del INEGI. Ver README.
 datos/crudos/
-
-# Python
 __pycache__/
-*.py[cod]
-.venv/
-venv/
-.ipynb_checkpoints/
-
-# Sistema
+*.pyc
 .DS_Store
-Thumbs.db
-
-# QGIS
-*.qgz~
-*.gpkg-shm
-*.gpkg-wal
+.ipynb_checkpoints/

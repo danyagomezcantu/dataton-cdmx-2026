@@ -3,7 +3,8 @@ Arma el visor en dos versiones a partir de app/plantilla.html.
 
   app/index.html    carga datos.js de la misma carpeta. Editable, mas comodo
                     para trabajar en equipo.
-  app/visor.html    con los datos incrustados. UN SOLO ARCHIVO. Se manda por
+  app/aplicacion_interactiva.html
+                    con los datos incrustados. UN SOLO ARCHIVO. Se manda por
                     correo, se abre con doble clic, funciona sin internet y sin
                     servidor. Esta es la version que se lleva al escenario.
 
@@ -31,13 +32,17 @@ def main():
 
     # version de un solo archivo
     unico = plantilla.replace(marca, "<script>\n" + datos + "\n</script>")
-    (cfg.APP / "visor.html").write_text(unico, encoding="utf-8")
+    (cfg.APP / "aplicacion_interactiva.html").write_text(unico, encoding="utf-8")
+    # el nombre viejo ya no se genera; si quedo de una corrida anterior, se va
+    viejo = cfg.APP / "visor.html"
+    if viejo.exists():
+        viejo.unlink()
 
-    for f in ("index.html", "visor.html", "datos.js"):
+    for f in ("index.html", "aplicacion_interactiva.html", "datos.js"):
         p = cfg.APP / f
         print(f"  {f:<14} {p.stat().st_size/1e6:6.2f} MB")
-    print("\n  visor.html es el que se lleva a la presentacion: "
-          "doble clic, sin internet, sin servidor.")
+    print("\n  aplicacion_interactiva.html es la que se lleva a la "
+          "presentacion: doble clic, sin internet, sin servidor.")
 
 
 if __name__ == "__main__":

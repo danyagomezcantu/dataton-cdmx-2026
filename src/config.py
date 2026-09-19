@@ -20,11 +20,11 @@ CRS_GEO = "EPSG:4326"           # lat/lon del DENUE y del GeoJSON final
 CRS_METRICO = "EPSG:6372"       # Mexico ITRF2008 / LCC. Distancias en metros.
 
 ALCALDIAS = {
-    "09002": "Azcapotzalco", "09003": "Coyoacan", "09004": "Cuajimalpa",
+    "09002": "Azcapotzalco", "09003": "Coyoacán", "09004": "Cuajimalpa",
     "09005": "Gustavo A. Madero", "09006": "Iztacalco", "09007": "Iztapalapa",
-    "09008": "Magdalena Contreras", "09009": "Milpa Alta", "09010": "Alvaro Obregon",
-    "09011": "Tlahuac", "09012": "Tlalpan", "09013": "Xochimilco",
-    "09014": "Benito Juarez", "09015": "Cuauhtemoc", "09016": "Miguel Hidalgo",
+    "09008": "Magdalena Contreras", "09009": "Milpa Alta", "09010": "Álvaro Obregón",
+    "09011": "Tláhuac", "09012": "Tlalpan", "09013": "Xochimilco",
+    "09014": "Benito Juárez", "09015": "Cuauhtémoc", "09016": "Miguel Hidalgo",
     "09017": "Venustiano Carranza",
 }
 
@@ -85,9 +85,9 @@ ESCENARIOS = {
         "factor_deriva": 1.00,
     },
     "digitalizacion": {
-        "nombre": "Digitalizacion",
+        "nombre": "Digitalización",
         "descripcion": ("Parte de la demanda de 60+ migra a teleconsulta y compra "
-                        "en linea. Responde a la critica de que el adulto mayor de "
+                        "en línea. Responde a la crítica de que el adulto mayor de "
                         "2031 tiene cultura digital."),
         "factor_demanda": 0.78,
         "factor_deriva": 1.00,
@@ -95,7 +95,7 @@ ESCENARIOS = {
     "recambio": {
         "nombre": "Envejecimiento acelerado",
         "descripcion": ("El desplazamiento barrial observado entre 2010 y 2020 se "
-                        "acelera al doble. Responde a la hipotesis de barrios que "
+                        "acelera al doble. Responde a la hipótesis de barrios que "
                         "envejecen y barrios que rejuvenecen."),
         "factor_demanda": 1.00,
         "factor_deriva": 2.00,
@@ -116,6 +116,72 @@ CONAPO_FUENTE = ("CONAPO, proyecciones 2023, via diagnostico INEGI-CONAPO-INAPAM
 NIVEL_CONFIANZA = 0.80
 SEMILLA = 42
 TOP_K = 50
+
+# ----------------------------------------------------------------- segmento
+# NO es "adultos mayores". Es poblacion que depende de atencion primaria de
+# bajo costo, y se define con DOS variables: edad y nivel socioeconomico.
+#
+# Viene de la retroalimentacion del Dr. Incera: quien entra a un consultorio
+# de farmacia no es principalmente el adulto mayor, es quien no tiene otra
+# opcion de atencion. Un profesor del ITAM de 65 anios con seguro de gastos
+# medicos no es nuestro mercado; el personal de mantenimiento del mismo
+# edificio, si.
+SEGMENTO = {
+    "nombre": "Población dependiente de atención primaria de bajo costo",
+    "edad": "60 y más (censo INEGI por AGEB)",
+    "socioeconomico": ("Población sin derechohabiencia a servicios de salud, "
+                       "% por AGEB (CONEVAL 2020). Se prefiere al Grado de "
+                       "Rezago Social porque ése es ordinal, está calibrado a "
+                       "escala nacional y deja 90% de la CDMX en dos niveles."),
+}
+
+MODOS = {
+    "necesidad": {
+        "nombre": "Necesidad",
+        "descripcion": ("Pondera por dependencia: quien no tiene otra opción de "
+                        "atención. Es el modo por omisión."),
+        "peso": "dependencia",
+    },
+    "comercial": {
+        "nombre": "Comercial",
+        "descripcion": ("Pondera por capacidad de pago: dónde hay clientes que "
+                        "gastan. Es la pregunta de negocio pura."),
+        "peso": "gasto",
+    },
+}
+MODO_BASE = "necesidad"
+
+# Saturacion: el otro extremo de la brecha. Una farmacia fracasa por dos
+# razones, no una: sobreoferta (demasiada competencia) o ausencia de mercado
+# (no hay gente). Las dos son recomendaciones utiles.
+PCT_SATURACION = 0.15        # decil-y-medio inferior de la brecha
+MIN_POB_MERCADO = 500        # poblacion total minima para que exista mercado
+
+# ----------------------------------------------------------------- supuestos
+# Supuestos de COMPORTAMIENTO DEL CONSUMIDOR. Son falsos y se asumen a
+# proposito para esta primera version. Van en el visor y en la presentacion:
+# un modelo que no declara sus supuestos no se puede criticar, y uno que no
+# se puede criticar no sirve para decidir.
+SUPUESTOS_MERCADO = [
+    {
+        "supuesto": "Mercado simplificado y distancias uniformes",
+        "por_que_es_falso": ("El precio, las promociones y el surtido varían "
+                             "entre cadenas."),
+        "que_hariamos": "Incorporar precio relativo por cadena.",
+    },
+    {
+        "supuesto": "Cliente perfecto: cada quien va a la farmacia más cercana",
+        "por_que_es_falso": ("La gente va a la de su programa de lealtad, o a la "
+                             "que más se anuncia."),
+        "que_hariamos": "Ponderar por participación de mercado de cada cadena.",
+    },
+    {
+        "supuesto": "Más oferta implica más atención",
+        "por_que_es_falso": ("Dos farmacias a la misma distancia no atienden "
+                             "igual: depende de estrategia comercial."),
+        "que_hariamos": "Datos de tráfico o de consumo, que hoy no son públicos.",
+    },
+]
 
 # ----------------------------------------------------------------- recomendaciones
 # Piso de poblacion de 60 y mas para que una AGEB pueda aparecer en las

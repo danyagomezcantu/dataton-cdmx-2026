@@ -1,18 +1,61 @@
-# Envejecimiento demográfico y atención primaria en la CDMX
+# Atención primaria accesible en la CDMX: dónde va a faltar, y para quién
 
-Datatón ITAM 2026 · reto ANTAD · datos del INEGI
+Datatón ITAM 2026 · reto ANTAD · datos de INEGI, CONEVAL y CONAPO
 
-> No buscamos dónde viven los adultos mayores. Medimos **cómo se está
-> recomponiendo la ciudad**: qué AGEB envejecen más rápido que el promedio y
-> cuáles más lento, y qué le implica ese envejecimiento desigual a la red de
-> farmacias con consultorio en los próximos tres años.
+> No buscamos dónde viven los adultos mayores. Buscamos **quién va a necesitar
+> atención primaria y no va a tener otra opción**. La edad dice cuánta demanda
+> habrá; la falta de derechohabiencia a servicios de salud dice a quién le toca
+> resolverla en el consultorio de la farmacia. Medimos la brecha entre esa
+> demanda y lo que se alcanza caminando, a 1, 3 y 5 años.
 
 ---
 
-## Cómo editar el visor
+## El segmento, y por qué no es "adultos mayores"
 
-**Edita `app/plantilla.html`**, no `visor.html` ni `index.html`: esos dos se
-generan y cualquier cambio directo se pierde al regenerar.
+Quien entra a un consultorio de farmacia no es principalmente el adulto mayor:
+es **quien no tiene otra opción de atención**. Alguien de 70 años con seguro de
+gastos médicos no es este mercado. El personal de mantenimiento del mismo
+edificio, sí.
+
+Por eso el segmento se define con **dos** variables, no una:
+
+| Variable | Fuente | Qué aporta |
+|---|---|---|
+| Población de 60 y más | Censo INEGI 2010 y 2020, por AGEB | Cuánta demanda habrá |
+| % sin derechohabiencia a servicios de salud | CONEVAL 2020, por AGEB | A quién le toca resolverla en la farmacia |
+
+**Por qué esa variable y no el Grado de Rezago Social.** El grado es ordinal de
+1 a 5 y está calibrado a escala nacional: dentro de la CDMX deja 948 AGEB en
+"Muy bajo" y 1,234 en "Bajo", o sea 90% de la ciudad en dos niveles. No
+discrimina. El porcentaje sin derechohabiencia es continuo, va de 16% a 38%
+entre los percentiles 5 y 95, y mide el mecanismo directamente: quien no tiene
+IMSS, ISSSTE ni seguro privado es quien termina en el consultorio de la
+farmacia, porque ahí la consulta cuesta veinte pesos y la privada cuesta mil.
+
+### Los dos modos, y por qué son un selector y no una decisión nuestra
+
+```
+necesidad  = brecha × dependencia         ← modo por omisión
+comercial  = brecha × capacidad de pago
+```
+
+Son espejo exacto, salen de la misma variable medida, y el visor deja cambiar
+entre ellos. **Cambiar de modo mueve 76 zonas del top-50**: no es un matiz, es
+otra pregunta.
+
+El efecto más claro: sin ponderar, la zona número uno de la ciudad era Lomas de
+Chapultepec, con 766 personas de 60 y más y cero comercio adentro por uso de
+suelo. La brecha física ahí es real, pero esa población no depende de una
+farmacia del ahorro. En modo necesidad baja; en modo comercial sigue primera, y
+eso es correcto: son dos preguntas distintas y las dos son legítimas.
+
+---
+
+## Cómo editar la aplicación
+
+**Edita `app/plantilla.html`**, no `aplicacion_interactiva.html` ni
+`index.html`: esos dos se generan y cualquier cambio directo se pierde al
+regenerar.
 
 ```bash
 # editas app/plantilla.html en VS Code
@@ -26,9 +69,9 @@ que basta recargar el navegador sin regenerar nada.
 
 ## El entregable
 
-`app/visor.html` — **un solo archivo**, con los datos incrustados. Doble clic y
-abre. Sin internet, sin servidor, sin instalar nada. Esa es la versión que se
-lleva a la presentación.
+`app/aplicacion_interactiva.html` — **un solo archivo**, con los datos
+incrustados. Doble clic y abre. Sin internet, sin servidor, sin instalar nada.
+Esa es la versión que se lleva a la presentación.
 
 `app/index.html` — la misma aplicación pero cargando `datos.js` de la carpeta.
 Más cómoda para trabajar en equipo porque el HTML se edita sin volver a generar
@@ -52,7 +95,8 @@ nombrada es clicable y lleva el mapa a ella.
 | 5 años | Envejecimiento muy sobre el promedio + accesibilidad bajo el promedio | Baja: es escenario |
 
 **Piso de población.** Solo pueden ser recomendadas las AGEB con al menos
-`cfg.MIN_P60_RECO` = 200 personas de 60 y más: 2,138 de 2,431. La brecha es un
+`cfg.MIN_P60_RECO` = 200 **personas de 60 y más** (no población total): 2,138 de
+2,431. La brecha es un
 cociente, y con 10 adultos mayores y cero oferta se dispara sin que exista
 decisión que tomar. Las 293 excluidas son 1.8% de la demanda de la ciudad.
 
@@ -71,7 +115,7 @@ python scripts/02_pipeline.py         # ~3 min: lee crudos, modela, exporta
 python scripts/03_visor.py            # arma las dos versiones del visor
 ```
 
-Después, abre `app/visor.html`.
+Después, abre `app/aplicacion_interactiva.html`.
 
 ---
 
@@ -80,9 +124,10 @@ Después, abre `app/visor.html`.
 ```
 .
 ├── app/
-│   ├── plantilla.html      el visor, sin datos. AQUI se edita la interfaz.
+│   ├── plantilla.html      la app, sin datos. AQUI se edita la interfaz.
 │   ├── index.html          generado: carga datos.js aparte
-│   ├── visor.html          generado: todo en un archivo  <- el entregable
+│   ├── aplicacion_interactiva.html
+│   │                       generado: todo en un archivo  <- el entregable
 │   └── datos.js            generado: los datos como variables JS
 ├── src/
 │   ├── config.py           TODO lo ajustable vive aquí
@@ -163,7 +208,7 @@ está desatendida.
 
 ---
 
-## Los cuatro hallazgos
+## Los cinco hallazgos
 
 **1. La CDMX no tiene desiertos de farmacias.** La versión ingenua marca 449
 AGEB sin ningún establecimiento dentro. Midiendo cobertura a 800 metros no queda
@@ -180,7 +225,13 @@ envejecimiento desigual: 1,300 zonas envejecieron más lento que la ciudad.
 Coyoacán tiene 47.8 establecimientos por cada 10 mil personas de 60 y más;
 Milpa Alta tiene 137.0 y Tláhuac 116.0. Miguel Hidalgo, 61.6.
 
-**4. Predecir dónde abrirá una farmacia es genuinamente difícil.** El modelo
+**4. Quién decide qué es "prioritario" cambia el mapa entero.** Ponderar la
+brecha por dependencia en vez de dejarla cruda mueve **76 zonas del top-50**. La
+brecha cruda mide distancia física al servicio; ponderada mide a quién le duele
+esa distancia. Son dos preguntas, no dos precisiones de la misma, y por eso el
+visor las deja cambiar con un selector en vez de que la decidamos nosotros.
+
+**5. Predecir dónde abrirá una farmacia es genuinamente difícil.** El modelo
 acierta 10% del top-50 en cambio. Es 5 veces el azar y le gana a los tres
 baselines, pero está lejos de ser preciso. Lo decimos porque el valor del
 trabajo no está ahí: está en la proyección de demanda, que es aritmética de
@@ -262,13 +313,46 @@ rama 6211. Contar solo 464 mide venta de medicamento, no capacidad de atención.
 
 ---
 
+## Supuestos de mercado
+
+Los límites de abajo son de **datos y método**. Éstos son de **comportamiento
+del consumidor**, que es distinto: no se arreglan con mejores datos del INEGI,
+se arreglan con datos de mercado que hoy no son públicos. Los tres son falsos y
+se asumen a propósito para esta primera versión.
+
+| Supuesto | Por qué es falso | Qué haríamos |
+|---|---|---|
+| Mercado simplificado y distancias uniformes | El precio, las promociones y el surtido varían entre cadenas | Incorporar precio relativo por cadena |
+| Cliente perfecto: cada quien va a la farmacia más cercana | La gente va a la de su programa de lealtad, o a la que más se anuncia | Ponderar por participación de mercado |
+| Más oferta implica más atención | Dos farmacias a la misma distancia no atienden igual | Datos de tráfico o de consumo |
+
+Un modelo que no declara sus supuestos no se puede criticar, y uno que no se
+puede criticar no sirve para decidir.
+
+---
+
+## Sobre la cobertura del mercado
+
+Farmacias Similares es de Fundación Best y **no** pertenece a la ANTAD, que
+agrupa a Ahorro, Guadalajara y Benavides. Aun así se cuenta, porque compite por
+el mismo cliente: lo que medimos es **capacidad instalada del mercado**, no
+participación de ANTAD.
+
+---
+
 ## Límites
 
 - Con dos censos hay un solo incremento por zona. No es una tendencia ajustada,
   es una diferencia. Con dos puntos no se estima una recta.
 - El ancho de banda de 800 m usa distancia en línea recta, no rutas caminando.
 - El DENUE no cubre la informalidad.
-- El censo 2020 se levantó durante la pandemia.
+- **El censo 2020 se levantó durante la pandemia y no corregimos ese sesgo.**
+  Afecta menos de lo que parece por dos razones: del censo no usamos el nivel
+  absoluto sino la *estructura de edad relativa* de cada zona, y un subconteo
+  parejo dentro de una AGEB casi no mueve esa proporción; y el total de control
+  de la ciudad no viene del censo sino de CONAPO, así que un error de nivel no
+  se propaga a la proyección. El Marco Geoestadístico 2020–2025 nos da geometría,
+  no demografía: no corrige esto y no lo presentamos como si lo hiciera.
 - El archivo municipal de CONAPO no estuvo disponible (servidor caído). Se usó la
   cifra publicada a nivel entidad, repartida en dos pasos.
 - La proyección supone permanencia residencial.
@@ -286,3 +370,9 @@ Los datos crudos (~600 MB) no se versionan. Para reproducir desde cero, baja:
 
 Lo que sí se versiona es `datos/procesados/`, así que el visor se puede
 regenerar sin volver a bajar nada.
+
+---
+
+## Roadmap
+
+Lo que haríamos con más tiempo, priorizado, está en [`ROADMAP.md`](ROADMAP.md).

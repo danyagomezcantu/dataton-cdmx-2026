@@ -130,6 +130,53 @@ def colonias_por_ageb(puntos) -> pd.DataFrame:
     return pd.DataFrame(filas)
 
 
+def completar_por_vecindad(agebs, colonias: pd.DataFrame) -> pd.DataFrame:
+    """
+    Nombra las AGEB que no tienen ningun establecimiento adentro.
+
+    El nombre de cada zona sale del campo de asentamiento del DENUE, o sea de
+    los negocios registrados dentro del poligono. Una AGEB estrictamente
+    residencial -uso de suelo sin comercio- no tiene de donde sacarlo, y salia
+    etiquetada con su clave: 'AGEB 0853'. Eran 102 de 2,431, y una de ellas
+    era la recomendacion numero uno de la ciudad.
+
+    Aqui se completan con las colonias de las AGEB que las TOCAN. El nombre
+    queda marcado con '~' para no afirmar que la zona ES esa colonia: dice que
+    esta junto a ella, que es lo unico que sabemos y lo unico que un juez
+    necesita para ubicarla en el mapa.
+    """
+    import geopandas as gpd
+
+    g = agebs[["CVEGEO", "geometry"]].merge(colonias, on="CVEGEO", how="left")
+    vacias = g["colonias"].isna() | (g["colonias"].astype(str).str.strip() == "")
+    if not vacias.any():
+        return colonias
+
+    con = g[~vacias]
+    sin = g[vacias]
+
+    # sjoin de tipo 'touches' via predicate; es barato con 102 poligonos
+    pares = gpd.sjoin(sin[["CVEGEO", "geometry"]],
+                      con[["CVEGEO", "colonias", "geometry"]].rename(
+                          columns={"CVEGEO": "CVEGEO_vec"}),
+                      how="left", predicate="touches")
+
+    nuevas = []
+    for cve, grp in pares.groupby("CVEGEO"):
+        nombres = []
+        for txt in grp["colonias"].dropna():
+            for parte in str(txt).split(" · "):
+                parte = parte.strip()
+                if parte and parte not in nombres:
+                    nombres.append(parte)
+        if nombres:
+            nuevas.append({"CVEGEO": cve, "colonias": "~ " + " · ".join(nombres[:2])})
+
+    if not nuevas:
+        return colonias
+    return pd.concat([colonias, pd.DataFrame(nuevas)], ignore_index=True)
+
+
 def inventario_agebs() -> pd.DataFrame:
     """Cuantas AGEB tiene cada annada del Marco Geoestadistico."""
     import geopandas as gpd
@@ -262,15 +309,40 @@ GRADOS = {"Muy bajo": 1, "Bajo": 2, "Medio": 3, "Alto": 4, "Muy alto": 5}
 
 def cargar_coneval(ruta) -> pd.DataFrame:
     """
-    Grado de Rezago Social por AGEB urbana 2020.
+    Rezago social por AGEB urbana 2020.
 
-    El archivo trae el encabezado en la fila 4 y la clave de AGEB de 13
-    caracteres en la columna 'Clave de la AGEB'. Se convierte el grado a una
-    escala ordinal 1-5 para poder usarlo como covariable.
+    El archivo trae el encabezado en la fila 4, la clave de AGEB de 13
+    caracteres en 'Clave de la AGEB', y en la fila siguiente los nombres de
+    los 16 indicadores continuos que componen el indice.
+
+    Ademas del GRADO ordinal (1-5) extraemos dos indicadores continuos:
+
+      sin_salud   % de poblacion SIN derechohabiencia a servicios de salud.
+                  Es la variable clave del proyecto. El grado ordinal esta
+                  calibrado a escala nacional y dentro de la CDMX casi no
+                  discrimina: 948 AGEB salen 'Muy bajo' y 1,234 'Bajo', o sea
+                  90% de la ciudad en dos niveles. Este porcentaje, en cambio,
+                  es continuo y mide exactamente el mecanismo: quien no tiene
+                  IMSS, ISSSTE ni seguro privado es quien termina en el
+                  consultorio de la farmacia porque no tiene a donde mas ir.
+
+      sin_internet  % de viviendas sin internet. No entra en el peso; queda
+                  disponible para diferenciar el escenario de digitalizacion
+                  por zona en vez de aplicar un factor plano.
     """
     df = pd.read_excel(ruta, dtype=str, header=3)
     col_clave = next(c for c in df.columns if "Clave de la AGEB" in str(c))
     col_grado = next(c for c in df.columns if "Grado de Rezago" in str(c))
+
+    # los nombres reales de los indicadores viven en la primera fila de datos
+    sub = df.iloc[0]
+    def col_indicador(fragmento):
+        for c, v in zip(df.columns, sub):
+            if isinstance(v, str) and fragmento.lower() in v.lower():
+                return c
+        return None
+    col_salud = col_indicador("sin derechohabiencia")
+    col_net = col_indicador("no disponen de internet")
 
     df = df.dropna(subset=[col_clave, col_grado])
     df["CVEGEO"] = df[col_clave].astype(str).str.strip()
@@ -281,4 +353,6 @@ def cargar_coneval(ruta) -> pd.DataFrame:
         "grs_texto": df[col_grado].astype(str).str.strip(),
     })
     out["grs"] = out["grs_texto"].map(GRADOS)
+    out["sin_salud"] = a_num(df[col_salud]) if col_salud else np.nan
+    out["sin_internet"] = a_num(df[col_net]) if col_net else np.nan
     return out.drop_duplicates("CVEGEO").reset_index(drop=True)
