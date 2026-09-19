@@ -1,8 +1,4 @@
 # Roadmap
-
-Lo que haríamos con un mes y medio más, en este orden. No es lo que *se puede*
-hacer: es lo que *vamos a* hacer.
-
 ---
 
 ## 1 · Perfeccionar los datos
