@@ -100,6 +100,11 @@
     "464122": "Articulos ortopedicos"
   },
   "ancho_banda_m": 800.0,
+  "proyecto": {
+    "sigla": "I.D.A.P.",
+    "nombre": "Indice de Demanda de Atencion Primaria",
+    "que_es": "Un numero por zona: cuanta gente va a necesitar un consultorio de farmacia cerca, frente a los que puede alcanzar caminando."
+  },
   "razon_acc": 14.341,
   "alcaldias_nombre": {
     "09002": "Azcapotzalco",
@@ -380,6 +385,7 @@
       "criterio": "Zonas con mayor brecha proyectada a 2027. A un año la recomendación casi no depende del modelo: la demanda ya está instalada y la oferta apenas se mueve entre cortes.",
       "dato": "La demanda de la ciudad pasa de 1,486,637 personas de 60 y más en 2020 a 1,870,304 en 2027. Las zonas del percentil 90 superan una brecha de 44 personas por unidad de servicio accesible.",
       "accion": "Decisión de apertura inmediata.",
+      "de_donde": "I.D.A.P. a 2027, modo necesidad. Es la misma columna que pinta el mapa: ponlo en «I.D.A.P. — índice de demanda», modo necesidad y año 2027, y estas zonas son las más oscuras.",
       "nota": "Universo: 2,138 de 2,431 AGEB. Se excluyen 293 con menos de 200 personas de 60 y más, que son 1.8% de la demanda de la ciudad: ahí el cociente se dispara por denominador chico, no porque haya una decisión que tomar.",
       "zonas": [
         {
@@ -390,8 +396,9 @@
           "oferta": 0,
           "acc": 40.8,
           "envejecimiento": 4.2,
-          "rezago": "Bajo",
+          "sin_salud": 30.7,
           "dependencia": 0.72,
+          "nivel_dep": "alta",
           "brecha": 164.11
         },
         {
@@ -402,8 +409,9 @@
           "oferta": 0,
           "acc": 64.2,
           "envejecimiento": 1.08,
-          "rezago": "Bajo",
+          "sin_salud": 40.6,
           "dependencia": 1.0,
+          "nivel_dep": "muy alta",
           "brecha": 160.81
         },
         {
@@ -414,8 +422,9 @@
           "oferta": 0,
           "acc": 55.8,
           "envejecimiento": 4.54,
-          "rezago": "Bajo",
+          "sin_salud": 26.6,
           "dependencia": 0.57,
+          "nivel_dep": "media",
           "brecha": 139.91
         }
       ]
@@ -428,6 +437,7 @@
       "criterio": "Zonas que hoy NO están en el 10% de peor brecha y en 2029 sí entran, ordenadas por cuántas personas de 60 y más se suman entre 2027 y 2029. Ordenamos por personas y no por saltos de posición a propósito: un cociente con denominador chico brinca mucho con poca gente. Este es el horizonte que defendemos: la inercia demográfica ya se nota y el error de proyección todavía es manejable.",
       "dato": "La demanda sube de 1,870,304 a 1,997,100 personas de 60 y más entre 2027 y 2029, un alza de 6.8%.",
       "accion": "Búsqueda de local y negociación de renta, no apertura aún.",
+      "de_donde": "I.D.A.P., modo necesidad. NO son las más oscuras del mapa hoy: son las que cruzan al 10% peor entre 2027 y 2029. Compara el mapa en 2027 contra el mapa en 2029 y vas a verlas oscurecerse.",
       "nota": "Universo: 2,138 de 2,431 AGEB. Se excluyen 293 con menos de 200 personas de 60 y más, que son 1.8% de la demanda de la ciudad: ahí el cociente se dispara por denominador chico, no porque haya una decisión que tomar.",
       "zonas": [
         {
@@ -438,8 +448,9 @@
           "oferta": 1,
           "acc": 40.8,
           "envejecimiento": 1.37,
-          "rezago": "Muy bajo",
+          "sin_salud": 22.1,
           "dependencia": 0.41,
+          "nivel_dep": "media",
           "brecha": 17.78,
           "salto_posiciones": 12.0,
           "personas_sumadas": 57.21
@@ -452,8 +463,9 @@
           "oferta": 1,
           "acc": 97.9,
           "envejecimiento": -1.69,
-          "rezago": "Bajo",
+          "sin_salud": 35.3,
           "dependencia": 0.88,
+          "nivel_dep": "muy alta",
           "brecha": 18.05,
           "salto_posiciones": 15.0,
           "personas_sumadas": 42.6
@@ -466,8 +478,9 @@
           "oferta": 0,
           "acc": 56.2,
           "envejecimiento": 0.8,
-          "rezago": "Muy bajo",
+          "sin_salud": 14.3,
           "dependencia": 0.2,
+          "nivel_dep": "baja",
           "brecha": 17.52,
           "salto_posiciones": 26.0,
           "personas_sumadas": 34.31
@@ -482,6 +495,7 @@
       "criterio": "Cruce de dos señales: envejecimiento muy por encima del promedio de la ciudad y accesibilidad por debajo. A cinco años no afirmamos un ranking de zonas concretas; señalamos un patrón que conviene monitorear con el DENUE semestral.",
       "dato": "A 2031 la demanda llega a 2,132,493 personas de 60 y más, 43% más que en 2020. El intervalo de confianza se ensancha con la raíz del horizonte.",
       "accion": "Monitoreo semestral, no compromiso de capital.",
+      "de_donde": "Cruce de tres señales, no del I.D.A.P.: envejecimiento sobre el promedio, accesibilidad bajo el promedio y dependencia alta. Por eso estas zonas pueden no coincidir con las más oscuras del mapa.",
       "nota": "Universo: 2,138 de 2,431 AGEB. Se excluyen 293 con menos de 200 personas de 60 y más, que son 1.8% de la demanda de la ciudad: ahí el cociente se dispara por denominador chico, no porque haya una decisión que tomar.",
       "zonas": [
         {
@@ -492,8 +506,9 @@
           "oferta": 3,
           "acc": 19.3,
           "envejecimiento": 13.41,
-          "rezago": "Muy bajo",
+          "sin_salud": 19.9,
           "dependencia": 0.33,
+          "nivel_dep": "baja",
           "riesgo": 5.03
         },
         {
@@ -504,8 +519,9 @@
           "oferta": 0,
           "acc": 75.1,
           "envejecimiento": 8.6,
-          "rezago": "Muy bajo",
+          "sin_salud": 35.8,
           "dependencia": 0.9,
+          "nivel_dep": "muy alta",
           "riesgo": 4.36
         },
         {
@@ -516,8 +532,9 @@
           "oferta": 2,
           "acc": 22.7,
           "envejecimiento": 4.76,
-          "rezago": "Bajo",
+          "sin_salud": 34.0,
           "dependencia": 0.84,
+          "nivel_dep": "muy alta",
           "riesgo": 4.25
         }
       ]

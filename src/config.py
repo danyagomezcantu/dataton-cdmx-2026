@@ -117,6 +117,16 @@ NIVEL_CONFIANZA = 0.80
 SEMILLA = 42
 TOP_K = 50
 
+# ----------------------------------------------------------------- nombre
+# El proyecto se llama por su indicador. Vive aqui para que el nombre no se
+# escriba a mano en cinco lugares y se desincronice.
+PROYECTO = {
+    "sigla": "I.D.A.P.",
+    "nombre": "Indice de Demanda de Atencion Primaria",
+    "que_es": ("Un numero por zona: cuanta gente va a necesitar un consultorio "
+               "de farmacia cerca, frente a los que puede alcanzar caminando."),
+}
+
 # ----------------------------------------------------------------- segmento
 # NO es "adultos mayores". Es poblacion que depende de atencion primaria de
 # bajo costo, y se define con DOS variables: edad y nivel socioeconomico.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Envejecimiento demográfico y atención primaria · CDMX</title>
+<title>I.D.A.P. — Índice de Demanda de Atención Primaria · Ciudad de México</title>
 <style>
 :root{
   --crema:#FAF7F0; --crema2:#F2EDE3; --crema3:#E8E1D4;
@@ -13,16 +13,34 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,Helvetica,sans-serif;background:var(--crema);
-  color:var(--tinta);font-size:14px;line-height:1.5}
-.wrap{max-width:1520px;margin:0 auto;padding:0 20px 60px}
+  color:var(--tinta);font-size:15px;line-height:1.5}
+.wrap{max-width:1600px;margin:0 auto;padding:0 20px 60px}
 
-header{padding:24px 0 16px;border-bottom:1px solid var(--borde);margin-bottom:16px}
-.franja{height:5px;border-radius:3px;margin-bottom:16px;
+/* Encabezado en UNA franja: titulo a la izquierda, que es el I.D.A.P. a la
+   derecha. Antes el titulo y el parrafo ocupaban tres renglones completos y
+   empujaban el mapa hacia abajo. El mapa es el producto: va arriba. */
+header{padding:9px 0 8px;border-bottom:1px solid var(--borde);margin-bottom:8px}
+.franja{height:5px;border-radius:3px;margin-bottom:9px;
   background:linear-gradient(90deg,var(--amarillo) 0%,var(--amarillo) 22%,
     var(--crema) 34%,var(--azul) 50%,var(--crema) 66%,var(--rojo) 80%,var(--negro) 100%)}
-h1{font-size:23px;font-weight:bold;letter-spacing:-.3px;margin-bottom:6px}
-.tesis{font-size:14px;color:var(--tinta2);max-width:900px}
+.cab{display:flex;align-items:baseline;justify-content:space-between;
+  gap:30px;flex-wrap:wrap}
+h1{font-size:24px;font-weight:bold;letter-spacing:-.4px;line-height:1.2}
+.tesis{font-size:12.5px;color:var(--tinta2);line-height:1.45;
+  max-width:585px;text-align:right;flex-shrink:0}
 .tesis b{color:var(--tinta)}
+@media(max-width:1100px){.tesis{text-align:left;max-width:100%}}
+/* En laptops de 13" el encabezado se comia dos renglones y el mapa pagaba la
+   cuenta. Menos cuerpo de letra arriba, mismo mapa abajo. */
+@media(max-width:1400px){
+  h1{font-size:21px}
+  .tesis{font-size:11.5px;max-width:470px}
+  .tab{font-size:13.5px;padding:6px 13px}
+  .campo label{font-size:10px;letter-spacing:.5px}
+  .campo select{max-width:150px}
+  select,button,input[type=text]{font-size:13px;padding:6px 8px}
+  .anio-val{font-size:19px;min-width:104px}
+}
 .credito{font-size:11.5px;color:var(--tinta3);margin-top:8px}
 
 .arranque{background:#fff;border:2px solid var(--amarillo);border-radius:8px;
@@ -53,6 +71,12 @@ h1{font-size:23px;font-weight:bold;letter-spacing:-.3px;margin-bottom:6px}
 .rc-z div.zi:last-child{border-bottom:none}
 .rc-n{font-size:12.5px;font-weight:bold;color:var(--tinta)}
 .rc-d{font-size:11px;color:var(--tinta2);margin-top:2px}
+.rc-dep{font-size:11px;color:var(--tinta);margin-top:3px;
+  background:var(--crema2);display:inline-block;padding:2px 7px;
+  border-radius:9px}
+.rc-src{margin:10px 15px 0;padding:8px 10px;background:var(--crema);
+  border-radius:5px;font-size:10.5px;color:var(--tinta2);line-height:1.5}
+.rc-src b{color:var(--tinta)}
 .rc-a{margin:12px 15px 0;margin-top:auto;padding:7px 10px;background:var(--crema2);
   border-left:3px solid var(--amarillo);font-size:11.5px;color:var(--tinta);
   border-radius:0 4px 4px 0}
@@ -61,36 +85,41 @@ h1{font-size:23px;font-weight:bold;letter-spacing:-.3px;margin-bottom:6px}
   padding:0 2px;margin-top:-4px}
 
 .controles{background:var(--crema2);border:1px solid var(--borde);
-  border-radius:8px;padding:13px 16px 11px;margin-bottom:16px}
-.linea{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end}
-.campo{display:flex;flex-direction:column;gap:5px}
-.campo label{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;
-  color:var(--tinta2);font-weight:bold}
+  border-radius:8px;padding:8px 13px 5px;margin-bottom:8px}
+/* Un solo renglon de controles. Antes la alcaldia se descolgaba sola a un
+   segundo renglon, lejos de los demas, y el bloque crecia a dos pisos. Con
+   etiquetas cortas y los selectores topados a 208px todo cabe de un lado a
+   otro, y la alcaldia queda justo a la izquierda de "Animar". */
+.linea{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.campo{display:flex;flex-direction:column;gap:4px}
+.campo label{font-size:11px;text-transform:uppercase;letter-spacing:.7px;
+  color:var(--tinta2);font-weight:bold;white-space:nowrap}
+.campo select{max-width:172px;text-overflow:ellipsis}
 select,button,input[type=text]{font-family:Arial,Helvetica,sans-serif;
-  font-size:13px;padding:7px 10px;border:1px solid var(--borde);
+  font-size:14px;padding:7px 10px;border:1px solid var(--borde);
   border-radius:5px;background:#fff;color:var(--tinta)}
 select,button{cursor:pointer}
 select:focus,button:focus,input:focus{outline:2px solid var(--azul);outline-offset:1px}
 .ayuda{font-size:11.5px;color:var(--tinta2);margin-top:9px;padding-top:9px;
   border-top:1px dashed var(--crema3);line-height:1.55}
 .ayuda b{color:var(--tinta)}
-.anio-caja{flex:1;min-width:290px}
-.pista{display:flex;align-items:center;gap:10px}
-input[type=range]{flex:1;accent-color:var(--azul);cursor:pointer;height:22px}
+.anio-caja{flex:1 1 300px;min-width:252px}
+.pista{display:flex;align-items:center;gap:12px}
+input[type=range]{flex:1;accent-color:var(--azul);cursor:pointer;height:24px}
 input[type=range]:disabled{opacity:.35;cursor:not-allowed}
-.anio-val{font-size:20px;font-weight:bold;min-width:126px;text-align:right;
-  font-variant-numeric:tabular-nums}
-.anio-val small{font-size:10.5px;font-weight:normal;color:var(--tinta2);
+.anio-val{font-size:22px;font-weight:bold;min-width:118px;text-align:right;
+  font-variant-numeric:tabular-nums;line-height:1.1}
+.anio-val small{font-size:11px;font-weight:normal;color:var(--tinta2);
   display:block;text-align:right;letter-spacing:.3px}
 .marcas{display:flex;justify-content:space-between;font-size:10px;
-  color:var(--tinta3);margin-top:2px}
+  color:var(--tinta3);margin-top:0}
 button.play{background:var(--azul);color:#fff;border-color:var(--azul);
-  font-weight:bold;min-width:100px}
+  font-weight:bold;min-width:96px;padding:7px 8px}
 button.play:hover{background:#17508e}
 button.play:disabled{background:var(--crema3);border-color:var(--crema3);
   color:var(--tinta3);cursor:not-allowed}
 
-.buscar{position:relative;min-width:250px}
+.buscar{position:relative;min-width:168px;flex:0 1 196px}
 .buscar input{width:100%}
 button.limpiar{background:var(--crema2);color:var(--tinta);
   border:1px solid var(--borde);border-radius:6px;padding:7px 14px;
@@ -107,15 +136,39 @@ button.limpiar:hover{background:var(--crema3)}
 .resultados .r2{font-size:11px;color:var(--tinta2);margin-top:1px}
 .resultados .nada{color:var(--tinta3);cursor:default;font-style:italic}
 
-.cuerpo{display:grid;grid-template-columns:1fr 378px;gap:16px}
-@media(max-width:1100px){.cuerpo{grid-template-columns:1fr}}
+.cuerpo{display:grid;grid-template-columns:1fr 400px;gap:16px}
+@media(max-width:1180px){.cuerpo{grid-template-columns:1fr}}
 .panel{background:#fff;border:1px solid var(--borde);border-radius:8px;padding:14px 16px}
-.panel h2{font-size:12px;text-transform:uppercase;letter-spacing:.8px;
+.panel h2{font-size:12.5px;text-transform:uppercase;letter-spacing:.8px;
   color:var(--tinta2);margin-bottom:10px;font-weight:bold}
 
 .mapa-caja{background:#fff;border:1px solid var(--borde);border-radius:8px;
-  padding:10px;position:relative}
-svg#mapa{width:100%;height:62vh;min-height:420px;display:block;
+  padding:9px;position:relative;flex:0 0 auto}
+
+/* ---------- el mapa manda ----------
+   La mancha urbana de la CDMX es mas alta que ancha (658 x 820 en las
+   unidades del viewBox). Metida en una caja panoramica el mapa se ajustaba
+   al alto y dejaba ~250px de crema muerta a cada lado: el mapa se veia
+   chico aunque la caja fuera enorme. Ahora la caja tiene la proporcion de
+   la ciudad, toma todo el alto de la ventana, y el hueco que sobra a su
+   derecha lo ocupan las dos tablas, que antes vivian debajo y obligaban a
+   bajar la pagina para verlas. */
+.zona-mapa{display:flex;gap:14px;align-items:flex-start}
+@media(max-width:1180px){.zona-mapa{flex-direction:column}
+  .lienzo{width:100%!important;aspect-ratio:auto!important;height:70vh!important}}
+
+.lienzo{position:relative;height:var(--altoMapa,calc(100vh - 272px));
+  aspect-ratio:658/820}
+/* Las dos tablas ocupan exactamente el alto del mapa y desplazan por dentro,
+   asi la pestania completa cabe en una pantalla y no hay que bajar. */
+.costado{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:14px;
+  height:var(--altoMapa,calc(100vh - 272px))}
+.costado .panel{flex:1 1 0;min-height:0;display:flex;flex-direction:column;
+  overflow:hidden;padding:12px 14px}
+.costado .tw{flex:1;min-height:0;overflow-y:auto;margin:0 -14px -12px;
+  padding:0 14px}
+.costado .tw thead th{position:sticky;top:0;background:#fff;z-index:2}
+svg#mapa{width:100%;height:100%;display:block;
   background:var(--crema);border-radius:4px}
 svg#mapa path.z{stroke:#fff;stroke-width:.3;cursor:pointer;
   vector-effect:non-scaling-stroke}
@@ -124,58 +177,77 @@ svg#mapa path.z.sel{stroke:var(--negro);stroke-width:2.4}
 svg#mapa path.lim{fill:none;stroke:var(--tinta);stroke-width:1.5;
   vector-effect:non-scaling-stroke;
   pointer-events:none;opacity:.5;stroke-linejoin:round}
-svg#mapa text.etq{font-family:Arial,Helvetica,sans-serif;font-size:9.5px;
+svg#mapa text.etq{font-family:Arial,Helvetica,sans-serif;font-size:10.5px;
   fill:var(--tinta);pointer-events:none;text-anchor:middle;
   paint-order:stroke;stroke:var(--crema);stroke-width:2.6px;
   stroke-linejoin:round;font-weight:bold;opacity:.85}
 .tooltip{position:absolute;pointer-events:none;background:var(--negro);
-  color:var(--crema);padding:8px 11px;border-radius:5px;font-size:12px;
-  z-index:30;max-width:262px;display:none;line-height:1.5}
+  color:var(--crema);padding:9px 12px;border-radius:5px;font-size:13px;
+  z-index:30;max-width:276px;display:none;line-height:1.5}
 .tooltip b{color:var(--amarillo)}
-.tooltip .tc{color:#fff;font-size:11.5px}
+.tooltip .tc{color:#fff;font-size:12.5px}
 
-.leyenda{margin-bottom:11px;padding:11px 13px;background:var(--crema);
-  border-radius:6px;border:1px solid var(--crema3)}
-.lg-tit{font-size:12px;color:var(--tinta);font-weight:bold;margin-bottom:2px}
-.lg-sub{font-size:11.5px;color:var(--tinta2);margin-bottom:7px;line-height:1.5}
-.lg-esc{display:flex;align-items:center;gap:10px}
-.barra{height:14px;flex:1;min-width:170px;border-radius:3px;border:1px solid var(--borde)}
-.lg-esc span{font-size:11px;color:var(--tinta2);white-space:nowrap}
-.lg-mid{font-size:10.5px;color:var(--tinta3);text-align:center;margin-top:3px}
+/* ---------- leyenda: UNA tira, no un bloque ----------
+   Antes eran cinco renglones de texto encima del mapa: titulo, descripcion,
+   unidad, la nota del percentil y la pregunta activa. Todo eso empujaba el
+   mapa hacia abajo y se leia una sola vez. Ahora la tira trae lo que se
+   consulta a cada rato (que capa es y que quiere decir el color) y la
+   explicacion larga vive detras del boton "?", que se abre encima del mapa
+   sin mover nada de lugar. */
+.leyenda{margin-bottom:8px;padding:6px 11px;background:var(--crema);
+  border-radius:6px;border:1px solid var(--crema3);
+  display:flex;align-items:center;gap:11px;flex-wrap:wrap;position:relative}
+.lg-tit{font-size:13.5px;color:var(--tinta);font-weight:bold;white-space:nowrap}
+.lg-esc{display:flex;align-items:center;gap:9px;flex:1;min-width:196px}
+.barra{height:13px;flex:1;min-width:140px;border-radius:3px;border:1px solid var(--borde)}
+.lg-esc span{font-size:12px;color:var(--tinta2);white-space:nowrap}
+.lg-modo{font-size:12px;color:var(--tinta);background:var(--crema2);
+  border:1px solid var(--crema3);border-radius:11px;padding:2px 11px;
+  white-space:nowrap;font-weight:bold}
+.lg-mas{background:none;border:1px solid var(--borde);border-radius:50%;
+  width:25px;height:25px;padding:0;font-size:13px;font-weight:bold;
+  color:var(--tinta2);line-height:1;flex-shrink:0}
+.lg-mas:hover{background:#fff;color:var(--tinta)}
+.lg-pop{position:absolute;top:100%;right:8px;margin-top:6px;width:min(460px,92vw);
+  background:#fff;border:1px solid var(--borde);border-radius:8px;
+  padding:13px 15px;z-index:45;box-shadow:0 8px 24px rgba(58,50,38,.18);
+  font-size:13px;line-height:1.6;color:var(--tinta2);display:none}
+.lg-pop.ab{display:block}
+.lg-pop p{margin-bottom:8px}
+.lg-pop p:last-child{margin-bottom:0}
+.lg-pop b{color:var(--tinta)}
 
 .cifras{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:13px}
-.cifra{background:var(--crema2);border-radius:6px;padding:9px 11px}
-.cifra .v{font-size:19px;font-weight:bold;font-variant-numeric:tabular-nums}
-.cifra .e{font-size:10.5px;color:var(--tinta2);text-transform:uppercase;
-  letter-spacing:.4px;margin-top:1px}
+.cifra{background:var(--crema2);border-radius:6px;padding:10px 12px}
+.cifra .v{font-size:22px;font-weight:bold;font-variant-numeric:tabular-nums}
+.cifra .e{font-size:11px;color:var(--tinta2);text-transform:uppercase;
+  letter-spacing:.4px;margin-top:2px;line-height:1.35}
 
-#detalle .vacio{color:var(--tinta3);font-size:13px;padding:20px 0;text-align:center}
-.dt-nom{font-size:16px;font-weight:bold;margin-bottom:1px}
-.dt-col{font-size:12.5px;color:var(--tinta);margin-bottom:2px}
-.dt-sub{font-size:11px;color:var(--tinta3);margin-bottom:10px;
+#detalle .vacio{color:var(--tinta3);font-size:14px;padding:22px 0;text-align:center}
+.dt-nom{font-size:18px;font-weight:bold;margin-bottom:1px;line-height:1.25}
+.dt-col{font-size:13.5px;color:var(--tinta);margin-bottom:2px}
+.dt-sub{font-size:11.5px;color:var(--tinta3);margin-bottom:10px;
   font-family:'Courier New',monospace}
-.fila{display:flex;justify-content:space-between;padding:5px 0;
-  border-bottom:1px solid var(--crema2);font-size:13px;gap:10px}
+.fila{display:flex;justify-content:space-between;padding:6px 0;
+  border-bottom:1px solid var(--crema2);font-size:14px;gap:10px}
 .fila:last-child{border-bottom:none}
 .fila .k{color:var(--tinta2)}
 .fila .v{font-weight:bold;text-align:right;font-variant-numeric:tabular-nums}
-.fila .cmp{font-size:10.5px;color:var(--tinta3);font-weight:normal;display:block}
+.fila .cmp{font-size:11px;color:var(--tinta3);font-weight:normal;display:block}
 .explica{background:var(--crema2);border-left:3px solid var(--amarillo);
-  padding:10px 12px;margin-top:11px;font-size:12.5px;line-height:1.6}
-.etiqueta{display:inline-block;padding:2px 9px;border-radius:10px;
-  font-size:10.5px;font-weight:bold;text-transform:uppercase;letter-spacing:.4px}
+  padding:10px 12px;margin-top:11px;font-size:13px;line-height:1.6}
+.etiqueta{display:inline-block;padding:3px 10px;border-radius:10px;
+  font-size:11px;font-weight:bold;text-transform:uppercase;letter-spacing:.4px}
 
-table{width:100%;border-collapse:collapse;font-size:12.5px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
 th{text-align:left;padding:7px 8px;border-bottom:2px solid var(--borde);
-  font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--tinta2)}
+  font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--tinta2)}
 td{padding:6px 8px;border-bottom:1px solid var(--crema2);
   font-variant-numeric:tabular-nums}
 tbody tr{cursor:pointer}
 tbody tr:hover{background:var(--crema2)}
 td.num{text-align:right}
 
-.abajo{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:1100px){.abajo{grid-template-columns:1fr}}
 details{background:#fff;border:1px solid var(--borde);border-radius:8px;
   padding:12px 16px;margin-top:12px}
 summary{cursor:pointer;font-weight:bold;font-size:13.5px;list-style:none}
@@ -202,8 +274,8 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--borde);
    que al lector no le interesaba. Con pestañas cada público entra directo a
    lo suyo. */
 .tabs{display:flex;gap:2px;border-bottom:2px solid var(--borde);
-  margin-bottom:16px;flex-wrap:wrap}
-.tab{font-family:inherit;font-size:13.5px;padding:9px 18px;cursor:pointer;
+  margin-bottom:8px;flex-wrap:wrap}
+.tab{font-family:inherit;font-size:14.5px;padding:7px 17px;cursor:pointer;
   background:none;border:none;border-bottom:3px solid transparent;
   color:var(--tinta2);margin-bottom:-2px;border-radius:5px 5px 0 0}
 .tab:hover{background:var(--crema2);color:var(--tinta)}
@@ -213,10 +285,9 @@ footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--borde);
 .pest.act{display:block}
 
 /* ---------- mapa: leyenda arriba, zoom propio ---------- */
-.lienzo{position:relative}
 .zoom{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;
   gap:4px;z-index:10}
-.zoom button{width:31px;height:31px;padding:0;font-size:16px;font-weight:bold;
+.zoom button{width:35px;height:35px;padding:0;font-size:18px;font-weight:bold;
   line-height:1;background:#fff;border:1px solid var(--borde);border-radius:6px;
   color:var(--tinta);cursor:pointer;box-shadow:0 1px 4px rgba(58,50,38,.12)}
 .zoom button:hover{background:var(--crema2)}
@@ -240,12 +311,12 @@ small.cve{display:block;font-size:9.5px;color:var(--tinta3);font-variant-numeric
 
 <header>
   <div class="franja"></div>
-  <h1>Envejecimiento demográfico y atención primaria en la Ciudad de México</h1>
-  <p class="tesis">No buscamos dónde viven los adultos mayores. Buscamos
-    <b>quién va a necesitar atención primaria y no va a tener otra opción</b>, y
-    medimos la brecha entre esa demanda y lo que se alcanza caminando, a 1, 3 y 5 años.</p>
-  <p class="credito">Datatón ITAM 2026 · reto ANTAD · 2,431 zonas urbanas ·
-    fuentes INEGI, CONEVAL y CONAPO</p>
+  <div class="cab">
+    <h1>¿Dónde va a faltar un consultorio de farmacia, y a quién?</h1>
+    <p class="tesis"><b>I.D.A.P.</b> · Índice de Demanda de Atención Primaria.
+      Un número por zona: cuánta gente va a necesitar un consultorio cerca,
+      frente a los que alcanza caminando.</p>
+  </div>
 </header>
 
 
@@ -255,6 +326,7 @@ small.cve{display:block;font-size:9.5px;color:var(--tinta3);font-variant-numeric
 <nav class="tabs" role="tablist">
   <button class="tab act" data-p="mapa" role="tab" aria-selected="true" aria-controls="p-mapa">Mapa</button>
   <button class="tab" data-p="reco" role="tab" aria-selected="false" aria-controls="p-reco">Recomendaciones</button>
+  <button class="tab" data-p="uso" role="tab" aria-selected="false" aria-controls="p-uso">Cómo se usa</button>
   <button class="tab" data-p="metodo" role="tab" aria-selected="false" aria-controls="p-metodo">Cómo se hizo</button>
   <button class="tab" data-p="fuentes" role="tab" aria-selected="false" aria-controls="p-fuentes">Fuentes y límites</button>
 </nav>
@@ -263,8 +335,8 @@ small.cve{display:block;font-size:9.5px;color:var(--tinta3);font-variant-numeric
 <div class="controles">
   <div class="linea">
     <div class="campo buscar">
-      <label for="q">Buscar colonia, alcaldía o clave</label>
-      <input type="text" id="q" placeholder="Ej.: Roma Norte, Coyoacán…"
+      <label for="q">Buscar zona</label>
+      <input type="text" id="q" placeholder="Colonia, alcaldía o clave…"
              autocomplete="off">
       <div class="resultados" id="res"></div>
     </div>
@@ -278,7 +350,7 @@ small.cve{display:block;font-size:9.5px;color:var(--tinta3);font-variant-numeric
       <select id="cap"></select>
     </div>
     <div class="campo">
-      <label for="modo">Qué pregunta contesta</label>
+      <label for="modo">Qué pregunta</label>
       <select id="modo"></select>
     </div>
     <div class="campo">
@@ -297,46 +369,50 @@ small.cve{display:block;font-size:9.5px;color:var(--tinta3);font-variant-numeric
         <div class="anio-val"><span id="anioTxt">2026</span>
           <small id="anioTipo">observado</small></div>
       </div>
-      <div class="marcas"><span id="mIni"></span>
-        <span>observado ← → proyectado</span><span id="mFin"></span></div>
+      <div class="marcas"><span id="mIni"></span><span id="mFin"></span></div>
     </div>
   </div>
 </div>
 
 <div class="cuerpo">
   <div>
-    <div class="mapa-caja">
-      <!-- La leyenda va ARRIBA del mapa. Antes estaba debajo y el ojo llegaba
-           al color sin saber qué significaba: "el rojo presumo que es malo,
-           pero me estás obligando a imaginar cosas". -->
-      <div class="leyenda" id="leyenda"></div>
-      <div class="lienzo">
-        <svg id="mapa" role="img" aria-label="Mapa de las zonas urbanas de la Ciudad de México"></svg>
-        <div class="tooltip" id="tip"></div>
-        <div class="zoom">
-          <button id="zmas" title="Acercar">+</button>
-          <button id="zmenos" title="Alejar">−</button>
-          <button id="zreset" title="Ver toda la ciudad">⤢</button>
+    <!-- La leyenda va ARRIBA del mapa. Antes estaba debajo y el ojo llegaba
+         al color sin saber qué significaba: "el rojo presumo que es malo,
+         pero me estás obligando a imaginar cosas".
+         Y va en UNA tira, a todo lo ancho: lo que se consulta seguido a la
+         vista, la explicación larga detrás del botón "?". -->
+    <div class="leyenda" id="leyenda"></div>
+
+    <div class="zona-mapa">
+      <div class="mapa-caja">
+        <div class="lienzo">
+          <svg id="mapa" role="img" aria-label="Mapa de las zonas urbanas de la Ciudad de México"></svg>
+          <div class="tooltip" id="tip"></div>
+          <div class="zoom">
+            <button id="zmas" title="Acercar">+</button>
+            <button id="zmenos" title="Alejar">−</button>
+            <button id="zreset" title="Ver toda la ciudad">⤢</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="abajo">
-      <div class="panel">
-        <h2>Zonas prioritarias — top 12</h2>
-        <table>
-          <thead><tr><th>Colonia · clave de zona</th><th>Alcaldía</th>
-            <th class="num">60+</th><th class="num">Prioridad</th></tr></thead>
-          <tbody id="tabla"></tbody>
-        </table>
-      </div>
-      <div class="panel">
-        <h2>Por alcaldía · clic para filtrar</h2>
-        <table>
-          <thead><tr><th>Alcaldía</th><th class="num">Oferta por 10k de 60+</th>
-            <th class="num">Envejec.</th></tr></thead>
-          <tbody id="tablaAlc"></tbody>
-        </table>
+      <div class="costado">
+        <div class="panel">
+          <h2>Zonas prioritarias — top 12</h2>
+          <div class="tw"><table>
+            <thead><tr><th>Colonia · clave de zona</th><th>Alcaldía</th>
+              <th class="num">60+</th><th class="num">I.D.A.P.</th></tr></thead>
+            <tbody id="tabla"></tbody>
+          </table></div>
+        </div>
+        <div class="panel">
+          <h2>Por alcaldía · clic para filtrar</h2>
+          <div class="tw"><table>
+            <thead><tr><th>Alcaldía</th><th class="num">Oferta por 10k de 60+</th>
+              <th class="num">Envejec.</th></tr></thead>
+            <tbody id="tablaAlc"></tbody>
+          </table></div>
+        </div>
       </div>
     </div>
   </div>
@@ -357,24 +433,31 @@ small.cve{display:block;font-size:9.5px;color:var(--tinta3);font-variant-numeric
 </section>
 
 <section class="pest" id="p-reco" role="tabpanel" aria-label="Recomendaciones">
-  <div class="arranque" id="arranque">
-  <button class="cerrar" id="cerrarArranque" aria-label="Cerrar">✕</button>
+  
+  <div class="reco" id="reco"></div>
+</section>
+
+<section class="pest" id="p-uso" role="tabpanel" aria-label="Cómo se usa">
+<div class="arranque">
   <h3>Cómo usar esto en un minuto</h3>
   <ol>
     <li><b>Busca una colonia</b> que conozcas: escribe Roma, Polanco, Iztapalapa…
       El mapa la ubica, la selecciona y se acerca a ella.</li>
     <li><b>El mapa está dividido en zonas</b>, las unidades territoriales con las que
       el INEGI divide la ciudad. Son como colonias pequeñas: 2,431 en la CDMX.</li>
-    <li><b>Cambia qué se mapea</b> con el segundo selector. Arriba del mapa aparece
-      siempre qué significa el color y en qué unidades.</li>
-    <li><b>Cambia la pregunta</b> con el selector «qué pregunta contesta»:
+    <li><b>Cambia qué se mapea</b> con el selector «qué se mapea». La tira gris
+      encima del mapa dice siempre qué significa el color; el botón
+      <b>?</b> de esa misma tira abre la explicación larga de la capa.</li>
+    <li><b>Cambia la pregunta</b> con el selector «qué pregunta»:
       <i>necesidad</i> señala dónde la gente no tiene otra opción de atención;
       <i>comercial</i> señala dónde hay capacidad de pago. No son la misma lista.</li>
-    <li><b>Haz clic en cualquier zona</b> para ver su detalle y la lectura en
+    <li><b>Mueve el año</b> o pulsa «Animar» para ver 2026, 2027, 2029 y 2031
+      uno tras otro.</li>
+    <li><b>Haz clic en cualquier zona</b> del mapa —o en un renglón de las dos
+      tablas de al lado— para ver su detalle a la derecha y la lectura en
       palabras de qué le está pasando.</li>
   </ol>
 </div>
-  <div class="reco" id="reco"></div>
 </section>
 
 <section class="pest" id="p-metodo" role="tabpanel" aria-label="Cómo se hizo">
@@ -471,42 +554,47 @@ var CAPAS={
     tit:"Envejecimiento relativo a la ciudad",
     que:"Cuánto se apartó cada zona del envejecimiento promedio de la ciudad entre los censos de 2010 y 2020.",
     uni:"puntos porcentuales (pp) respecto al promedio de la ciudad",
-    como:"", anio:false, div:true},
+    como:"", anio:false, div:true, juicio:false},
   brecha:{
-    nom:"Prioridad proyectada",
-    tit:"Índice de prioridad",
+    nom:"I.D.A.P. — índice de demanda",
+    tit:"I.D.A.P. · Índice de Demanda de Atención Primaria",
     que:"Cuántas personas de 60 y más hay por unidad de servicio alcanzable, ponderado por qué tanto dependen de ese servicio.",
     uni:"índice, no un conteo: brecha × peso del modo activo",
     como:"Primero se divide la demanda proyectada entre la oferta accesible a 800 metros: ésa es la brecha física, y se lee en personas por unidad. Después se multiplica por el peso del modo, que va de 0.2 a 1.0. El resultado ordena zonas; no se lee como un número de personas.",
-    anio:true, div:false, frio:false, pond:true},
+    anio:true, div:false, frio:false, pond:true, juicio:true,
+    extremos:["menor prioridad","mayor prioridad"]},
   oferta:{
     nom:"Oferta instalada",
     tit:"Establecimientos dentro de la zona",
     que:"Cuántas farmacias y consultorios hay físicamente dentro de los límites de cada zona.",
     uni:"número de establecimientos",
     como:"Conteo directo de las cuatro clases SCIAN de oferta en el DENUE del año seleccionado.",
-    anio:true, div:false, frio:true},
+    anio:true, div:false, frio:true, juicio:false,
+    extremos:["menos establecimientos","más establecimientos"]},
   acceso:{
     nom:"Accesibilidad a 800 m",
     tit:"Oferta alcanzable caminando",
     que:"Cuánta oferta puede alcanzar quien vive en esa zona, contando también la que está fuera de sus límites.",
     uni:"índice: establecimientos ponderados por distancia",
     como:"Cada establecimiento aporta según qué tan cerca esté: uno a 200 m aporta casi 1, uno a 800 m aporta 0.61, uno a 2 km aporta 0.04. Un índice de 60 no son 60 farmacias exactas, es el equivalente en oferta útil.",
-    anio:true, div:false, frio:true},
+    anio:true, div:false, frio:true, juicio:false,
+    extremos:["menos alcance","más alcance"]},
   p60:{
     nom:"Población de 60 y más",
     tit:"Personas de 60 y más",
     que:"Cuánta gente de 60 años o más vive en la zona.",
     uni:"personas",
     como:"Dato del Censo 2020 para los años observados. Para los proyectados, la demanda estimada según el escenario.",
-    anio:true, div:false, frio:false},
+    anio:true, div:false, frio:false, juicio:false,
+    extremos:["menos personas","más personas"]},
   dependencia:{
     nom:"Dependencia de la farmacia",
     tit:"Quién no tiene otra opción de atención",
     que:"Qué tanto depende esa zona del consultorio de farmacia por no tener acceso a otro servicio de salud.",
     uni:"% de población sin derechohabiencia a servicios de salud",
-    como:"Dato del CONEVAL 2020 por zona. Quien no tiene IMSS, ISSSTE ni seguro privado es quien termina en el consultorio de la farmacia, porque la consulta cuesta veinte pesos y la privada cuesta mil. Rojo: mucha población sin cobertura.",
-    anio:false, div:false, frio:false},
+    como:"Dato del CONEVAL 2020 por zona. Quien no tiene IMSS, ISSSTE ni seguro privado es quien termina en el consultorio de la farmacia, porque la consulta cuesta veinte pesos y la privada cuesta mil.",
+    anio:false, div:false, frio:false, juicio:false,
+    extremos:["casi todos con servicio médico","casi nadie con servicio médico"]},
   saturacion:{
     nom:"Dónde NO abrir",
     tit:"Sobreoferta y zonas sin mercado",
@@ -539,12 +627,23 @@ function mezcla(a,b,t){return [Math.round(a[0]+(b[0]-a[0])*t),
 function rgb(c){return "rgb("+c[0]+","+c[1]+","+c[2]+")"}
 var CREMA=[250,247,240],AZUL=[27,95,168],ROJO=[200,50,43],AMAR=[242,183,5],
     NEGRO=[26,23,18];
+/* Versiones MAS OSCURAS de los mismos azul y rojo. No es otra paleta ni otra
+   saturación: es el mismo tono llevado más abajo en luminosidad, para que el
+   extremo de la rampa se distinga del centro. El cambio de envejecimiento en
+   la CDMX es de pocos puntos porcentuales y con la rampa anterior el mapa se
+   veía casi plano. */
+var AZUL_F=[13,52,96], ROJO_F=[124,29,25];
 function divergente(v,lim){if(v===null||!isFinite(v))return "#E8E1D4";
-  var t=Math.max(-1,Math.min(1,v/lim));
-  return t<0?rgb(mezcla(CREMA,AZUL,-t)):rgb(mezcla(CREMA,ROJO,t))}
+  var t=Math.max(-1,Math.min(1,v/lim)), a=Math.abs(t);
+  var base=t<0?AZUL:ROJO, fuerte=t<0?AZUL_F:ROJO_F;
+  /* dos tramos: crema -> color hasta 0.72, y color -> color oscuro después */
+  return a<=.72 ? rgb(mezcla(CREMA,base,a/.72))
+                : rgb(mezcla(base,fuerte,(a-.72)/.28));}
 function calido(v,lo,hi){if(v===null||!isFinite(v))return "#E8E1D4";
   var t=Math.max(0,Math.min(1,(v-lo)/((hi-lo)||1)));
-  return t<.5?rgb(mezcla(CREMA,AMAR,t*2)):rgb(mezcla(AMAR,ROJO,(t-.5)*2))}
+  if(t<.42)return rgb(mezcla(CREMA,AMAR,t/.42));
+  if(t<.80)return rgb(mezcla(AMAR,ROJO,(t-.42)/.38));
+  return rgb(mezcla(ROJO,ROJO_F,(t-.80)/.20));}
 function frio(v,lo,hi){if(v===null||!isFinite(v))return "#E8E1D4";
   var t=Math.max(0,Math.min(1,(v-lo)/((hi-lo)||1)));
   return t<.5?rgb(mezcla(CREMA,AZUL,t*2)):rgb(mezcla(AZUL,NEGRO,(t-.5)*2))}
@@ -602,7 +701,9 @@ function escala(){
       return x===1?"#C8322B":x===-1?"#1B5FA8":"#EFEAE0"}};
   }
   if(c.div){
-    var lim=Math.max(Math.abs(cuantil(C.recambio,.03)),cuantil(C.recambio,.97));
+    /* Recortar al 10% de cada cola en vez del 3%: con el límite anterior el
+       50% central de las zonas apenas alcanzaba una cuarta parte del color. */
+    var lim=Math.max(Math.abs(cuantil(C.recambio,.10)),cuantil(C.recambio,.90));
     return {div:true,lim:lim,f:function(x){return divergente(x,lim)}};
   }
   var col=c.frio?frio:calido;
@@ -756,10 +857,19 @@ function pintar(){
   leyenda(es);
 }
 
+/* La leyenda se arma en dos partes:
+   - la TIRA: título de la capa, la rampa de color con sus extremos y, si
+     aplica, el modo activo. Es lo que se mira de reojo cada vez que se
+     cambia un control.
+   - el POPOVER: para qué sirve la capa, en qué unidad está y por qué la
+     escala es la que es. Se lee una vez. Vive detrás del botón "?" y se
+     abre ENCIMA del mapa, así que no empuja nada hacia abajo. */
+var lgAbierto=false;
+
 function leyenda(es){
-  var c=CAPAS[st.cap], t="";
+  var c=CAPAS[st.cap], t="", p="";
   t+='<div class="lg-tit">'+c.tit+'</div>';
-  t+='<div class="lg-sub">'+c.que+' <b>Unidad:</b> '+c.uni+'.</div>';
+  p+='<p>'+c.que+' <b>Unidad:</b> '+c.uni+'.</p>';
   t+='<div class="lg-esc">';
   if(es.div){
     if(st.cap==="recambio"){
@@ -768,8 +878,10 @@ function leyenda(es){
         divergente(-es.lim,es.lim)+','+divergente(0,es.lim)+','+
         divergente(es.lim,es.lim)+')"></div>';
       t+='<span>envejece '+sig(es.lim,1)+' pp</span></div>';
-      t+='<div class="lg-mid">El centro de la escala es el promedio de la ciudad ('+
-        sig(META.recambio_medio_ciudad,2)+' pp), no el cero: casi toda la CDMX envejeció.</div>';
+      p+='<p>El centro de la escala es el promedio de la ciudad ('+
+        sig(META.recambio_medio_ciudad,2)+' pp), no el cero: casi toda la CDMX '+
+        'envejeció. Los extremos se recortan al 10% de cada cola, porque el '+
+        'cambio real es de pocos puntos y si no, el mapa se ve plano.</p>';
     }else{   /* saturación: tres categorías, no una rampa */
       t+='<span style="display:flex;align-items:center;gap:6px">'+
         '<i style="width:13px;height:13px;border-radius:3px;background:#1B5FA8;'+
@@ -783,26 +895,36 @@ function leyenda(es){
     }
   }else{
     var col=c.frio?frio:calido, d=(es.hi<20)?1:0;
-    var peor=c.frio?"más oferta cerca":"peor";
-    var mejor=c.frio?"menos oferta cerca":"mejor";
+    /* "mejor" y "peor" solo donde la capa realmente lleva un juicio de valor.
+       En población de 60 y más, más gente no es "peor": es más demanda. */
+    var ext=c.extremos||["menor","mayor"];
+    var mejor=ext[0], peor=ext[1];
     t+='<span><b>'+mejor+'</b> · '+num(es.lo,d)+'</span>';
     t+='<div class="barra" style="background:linear-gradient(90deg,'+
       col(0,0,1)+','+col(.25,0,1)+','+col(.5,0,1)+','+col(.75,0,1)+','+
       col(1,0,1)+')"></div>';
     t+='<span>'+num(es.hi,d)+' · <b>'+peor+'</b></span></div>';
-    t+='<div class="lg-mid">'+(es.rango
+    p+='<p>'+(es.rango
       ? 'El color se reparte por percentil, no linealmente: cada tramo tiene el '+
         'mismo número de zonas. Con escala lineal unas pocas zonas extremas '+
         'aplastaban al resto y el mapa se veía plano.'
       : 'Escala del percentil 2 al 98: los extremos se recortan para que el '+
-        'color no se lo coma un solo valor atípico.')+'</div>';
+        'color no se lo coma un solo valor atípico.')+'</p>';
   }
   if(st.cap==="brecha"){
     var m=META.modos[st.modo];
-    t+='<div class="lg-mid" style="margin-top:6px"><b>Pregunta activa: '+
-       m.nombre+'.</b> '+m.descripcion+'</div>';
+    t+='<span class="lg-modo">Pregunta: '+m.nombre+'</span>';
+    p+='<p><b>Pregunta activa: '+m.nombre+'.</b> '+m.descripcion+'</p>';
   }
+  t+='<button class="lg-mas" id="lgMas" aria-expanded="'+lgAbierto+
+     '" title="Qué significa esta capa">?</button>';
+  t+='<div class="lg-pop'+(lgAbierto?' ab':'')+'" id="lgPop">'+p+'</div>';
   $("leyenda").innerHTML=t;
+  $("lgMas").onclick=function(){
+    lgAbierto=!lgAbierto;
+    $("lgPop").classList.toggle("ab",lgAbierto);
+    this.setAttribute("aria-expanded",lgAbierto);
+  };
 }
 
 function sobre(e){
@@ -882,7 +1004,7 @@ function detalle(i){
           "personas de 60+ ÷ (oferta alcanzable + 1)");
   h+=fila("Dependencia de la zona",num(C.sin_salud[i],1)+"%",
           "sin derechohabiencia a servicios de salud (CONEVAL 2020)");
-  h+=fila("Índice de prioridad · "+META.modos[st.modo].nombre,
+  h+=fila("I.D.A.P. · modo "+META.modos[st.modo].nombre.toLowerCase(),
           num(br?br[i]:null,1),
           "brecha × peso del modo. Es un índice para ordenar, no un conteo");
   h+='</div>';
@@ -1094,7 +1216,14 @@ function recomendaciones(){
          (z.oferta===1?' farmacia o consultorio dentro':
                        ' farmacias o consultorios dentro')+
          ' · '+num(z.acc,1)+' alcanzables a 800 m</div>';
+      /* El dato que justifica la recomendación: NO el grado del CONEVAL, que
+         se lee al revés, sino el porcentaje que sí usa el modelo. */
+      if(z.sin_salud!==null&&z.sin_salud!==undefined)
+        d+='<div class="rc-dep"><b>'+num(z.sin_salud,1)+'%</b> sin servicio '+
+           'médico propio · dependencia '+z.nivel_dep+'</div>';
       return d+'</div>'}).join("")+'</div>';
+    if(r.de_donde)
+      h+='<div class="rc-src"><b>De dónde sale:</b> '+r.de_donde+'</div>';
     h+='<div class="rc-f">'+r.dato+'</div>';
     h+='<div class="rc-a"><b>Acción:</b> '+r.accion+'</div>';
     return h+'</div>'}).join("");
@@ -1113,6 +1242,11 @@ function recomendaciones(){
 /* ---------- secciones informativas ---------- */
 function glosario(){
   var g=[
+    ["I.D.A.P.","Índice de Demanda de Atención Primaria, el número que da nombre "+
+     "a esta aplicación y el que pinta el mapa. Para cada zona compara dos cosas: "+
+     "cuánta gente va a necesitar atención primaria, y cuánta puede alcanzar "+
+     "caminando. Un I.D.A.P. alto significa mucha gente por cada consultorio "+
+     "alcanzable. No es un conteo de personas: es un índice para ordenar zonas."],
     ["AGEB","Área Geoestadística Básica. Es la unidad con la que el INEGI divide el "+
      "territorio urbano: un conjunto de manzanas delimitadas por calles y avenidas. "+
      "Funciona como una colonia pequeña. La Ciudad de México tiene 2,431."],
@@ -1278,7 +1412,9 @@ function informacion(){
   lh+="</ul>";
   $("limites").innerHTML=lh;
 
-  $("pie").innerHTML="Elaboración propia con datos del INEGI (Censos de Población y "+
+  $("pie").innerHTML="<b>I.D.A.P.</b> — Índice de Demanda de Atención Primaria. "+
+    "Datatón ITAM 2026 · reto ANTAD · 2,431 zonas urbanas de la CDMX.<br>"+
+    "Elaboración propia con datos del INEGI (Censos de Población y "+
     "Vivienda 2010 y 2020 por AGEB, DENUE ediciones 2016 a 2026, Marco Geoestadístico "+
     "2020 a 2025), CONEVAL (Grado de Rezago Social por AGEB urbana 2020) y CONAPO "+
     "(proyecciones de población). Unidad de análisis: AGEB urbana. Sistema de "+
@@ -1412,7 +1548,6 @@ function iniciarControles(){
   },{passive:false});
 
   $("limpiar").onclick=limpiar;
-  $("cerrarArranque").onclick=function(){$("arranque").style.display="none"};
 
   var q=$("q");
   q.oninput=function(){
@@ -1442,8 +1577,21 @@ function animar(){
     st.i++; s.value=st.i; todo()},760);
 }
 
+/* El alto del mapa no se puede adivinar con un calc(): el encabezado y los
+   controles cambian de altura segun el ancho de la ventana (en una pantalla
+   angosta los selectores se van a dos renglones). Aqui se mide donde empieza
+   el mapa y se le da todo lo que queda de pantalla. */
+function altoMapa(){
+  var z=document.querySelector(".zona-mapa");
+  if(!z||!z.offsetParent)return;
+  var arriba=z.getBoundingClientRect().top+window.pageYOffset;
+  var h=Math.max(400,Math.min(920,window.innerHeight-arriba-18));
+  document.documentElement.style.setProperty("--altoMapa",h+"px");
+}
+window.addEventListener("resize",altoMapa);
+
 function todo(){estadoAnio();estadoControles();ayuda();pintar();resumen();tabla();
-  if(st.sel>=0)detalle(st.sel)}
+  if(st.sel>=0)detalle(st.sel);altoMapa()}
 
 construirMapa();
 construirIndice();
@@ -1454,6 +1602,7 @@ supuestos();
 glosario();
 informacion();
 todo();
+altoMapa();
 })();
 </script>
 </body>

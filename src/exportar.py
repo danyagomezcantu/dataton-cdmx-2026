@@ -42,6 +42,21 @@ def _lista(serie, nd=None):
 
 
 
+def _nivel_dependencia(w) -> str:
+    """
+    El peso 0.2-1.0 en palabras. Existe porque el grado del CONEVAL se lee al
+    reves: 'Bajo' ahi significa POCO rezago, o sea zona acomodada, y en una
+    tarjeta de recomendacion eso parece justo lo contrario de lo que decimos.
+    """
+    if w >= 0.80:
+        return "muy alta"
+    if w >= 0.60:
+        return "alta"
+    if w >= 0.40:
+        return "media"
+    return "baja"
+
+
 def recomendaciones(tabla) -> list:
     """
     Tres recomendaciones concretas, una por horizonte, calculadas desde los datos.
@@ -66,6 +81,7 @@ def recomendaciones(tabla) -> list:
     # de necesidad mide a quien le duele esa distancia. Recomendar sobre la
     # cruda ponia a Lomas de Chapultepec en primer lugar.
     MB = cfg.MODO_BASE
+    SG = cfg.PROYECTO["sigla"]
 
     # Piso de poblacion. La brecha es un cociente y en una AGEB con 10 personas
     # de 60 y mas y cero oferta se dispara sin que exista decision que tomar.
@@ -95,8 +111,10 @@ def recomendaciones(tabla) -> list:
                 "oferta": int(r[f"n_{cfg.ANIO_BASE}"]),
                 "acc": round(float(r[f"acc_{cfg.ANIO_BASE}"]), 1),
                 "envejecimiento": round(float(r["recambio"]), 2),
-                "rezago": r.get("grs_texto"),
+                "sin_salud": (round(float(r["sin_salud"]), 1)
+                              if pd.notna(r.get("sin_salud")) else None),
                 "dependencia": round(float(r["w_necesidad"]), 2),
+                "nivel_dep": _nivel_dependencia(r["w_necesidad"]),
             }
             if extra:
                 d.update({k: (round(float(r[v]), 2) if pd.notna(r[v]) else None)
@@ -165,6 +183,10 @@ def recomendaciones(tabla) -> list:
                      f"90 superan una brecha de {umbral:,.0f} personas por unidad de "
                      f"servicio accesible."),
             "accion": "Decisión de apertura inmediata.",
+            "de_donde": (f"{SG} a {a1}, modo {cfg.MODOS[MB]['nombre'].lower()}. Es la "
+                         f"misma columna que pinta el mapa: ponlo en «{SG} — índice "
+                         f"de demanda», modo {cfg.MODOS[MB]['nombre'].lower()} y año "
+                         f"{a1}, y estas zonas son las más oscuras."),
             "nota": nota,
             "zonas": ficha(corto, {"brecha": b1}),
         },
@@ -184,6 +206,10 @@ def recomendaciones(tabla) -> list:
                      f"de 60 y más entre {a1} y {a3}, un alza de "
                      f"{100*(d_tot[a3]/d_tot[a1]-1):.1f}%."),
             "accion": "Búsqueda de local y negociación de renta, no apertura aún.",
+            "de_donde": (f"{SG}, modo {cfg.MODOS[MB]['nombre'].lower()}. NO son las "
+                         f"más oscuras del mapa hoy: son las que cruzan al 10% peor "
+                         f"entre {a1} y {a3}. Compara el mapa en {a1} contra el mapa "
+                         f"en {a3} y vas a verlas oscurecerse."),
             "nota": nota,
             "zonas": ficha(medio, {"brecha": b3, "salto_posiciones": "_salto", "personas_sumadas": "_suma"}),
         },
@@ -200,6 +226,10 @@ def recomendaciones(tabla) -> list:
                      f"{100*(d_tot[a5]/base-1):.0f}% más que en 2020. El intervalo de "
                      f"confianza se ensancha con la raíz del horizonte."),
             "accion": "Monitoreo semestral, no compromiso de capital.",
+            "de_donde": (f"Cruce de tres señales, no del {SG}: envejecimiento sobre "
+                         f"el promedio, accesibilidad bajo el promedio y dependencia "
+                         f"alta. Por eso estas zonas pueden no coincidir con las más "
+                         f"oscuras del mapa."),
             "nota": nota,
             "zonas": ficha(largo, {"riesgo": "_riesgo"}),
         },
@@ -292,6 +322,7 @@ def construir(tabla, diag: dict, limites=None) -> dict:
         "scian_oferta": cfg.SCIAN_OFERTA,
         "scian_contexto": cfg.SCIAN_CONTEXTO,
         "ancho_banda_m": cfg.ANCHO_BANDA_M,
+        "proyecto": cfg.PROYECTO,
         "razon_acc": diag.get("razon_accesible_por_establecimiento", 1.0),
         "alcaldias_nombre": cfg.ALCALDIAS,
         "alcaldias": alc.round(2).to_dict("records"),

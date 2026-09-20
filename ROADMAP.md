@@ -1,4 +1,6 @@
-# Roadmap
+# Roadmap — I.D.A.P.
+
+**I.D.A.P.** es el Índice de Demanda de Atención Primaria: el número que esta aplicación calcula para cada zona de la CDMX.
 
 Lo que haríamos con un mes y medio más, en este orden. No es lo que *se puede*
 hacer: es lo que *vamos a* hacer.
@@ -47,12 +49,23 @@ arrastre y calles de referencia. Ver la nota de decisión abajo.
 Ya existe como capa ("dónde NO abrir"), pero es binaria. Falta graduarla: cuánta
 sobreoferta hay, y a qué distancia está la competencia relevante.
 
-## 5 · Conector a un LLM
+## 5 · Ida, el conector a un LLM
 
 Consulta en lenguaje natural sobre el mapa, y redacción automática de las
 tarjetas de recomendación. **Va al final a propósito:** es deseable, no
 indispensable, y preferimos que los datos estén bien antes de ponerle una capa
 de conversación encima.
+
+**Se llamará Ida**, por el nombre del proyecto. La idea es que en lugar de
+aprender a usar los selectores, cualquiera pueda escribir *"¿dónde conviene
+abrir en Iztapalapa en tres años?"* y obtener la respuesta con su justificación.
+
+Ida no aparece todavía en la aplicación, y aparece aquí a propósito: es un
+compromiso del siguiente mes, no una función que ya exista.
+
+> **Para que no se confundan los dos nombres:** *I.D.A.P.* es el índice, o sea
+> el número que la aplicación calcula para cada zona. *Ida* será el asistente
+> con el que se le va a poder preguntar por ese número en voz normal.
 
 ---
 

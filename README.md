@@ -1,4 +1,6 @@
-# Atención primaria accesible en la CDMX: dónde va a faltar, y para quién
+# I.D.A.P. — Índice de Demanda de Atención Primaria
+
+**¿Dónde va a faltar un consultorio de farmacia en la CDMX, y a quién?**
 
 Datatón ITAM 2026 · reto ANTAD · datos de INEGI, CONEVAL y CONAPO
 
