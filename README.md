@@ -1,6 +1,6 @@
 # I.D.A.P. — Índice de Demanda de Atención Primaria
 
-**¿Dónde va a faltar un consultorio de farmacia en la CDMX, y a quién?**
+**¿Dónde va a faltar un consultorio de farmacia en la CDMX, y quién lo va a necesitar?**
 
 Datatón ITAM 2026 · reto ANTAD · datos de INEGI, CONEVAL y CONAPO
 
